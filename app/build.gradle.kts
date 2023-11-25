@@ -43,13 +43,6 @@ android {
         jvmTarget = "1.8"
     }
 
-    buildFeatures {
-        compose = true
-        viewBinding = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.kotlinCompilerExtensionVersion
-    }
     packagingOptions {
         exclude("META-INF/LGPL2.1")
     }
@@ -59,13 +52,15 @@ dependencies {
 
     implementation(Android.android_core_ktx)
     implementation(Android.lifecycle_runtime_ktx)
-    implementation(Android.activity_compose)
     implementation(Android.compose_ui)
-    implementation(Android.compose_ui_tooling_preview)
     implementation(Android.material_3)
     testImplementation(Testing.junit)
     androidTestImplementation(Testing.test_ext_junit)
     androidTestImplementation(Testing.espresso_core)
     androidTestImplementation(Testing.compose_ui_test)
     debugImplementation(Android.compose_ui_tooling)
+
+    implementation(project(":presentation"))
+    implementation(project(":data"))
+    implementation(project(":domain"))
 }

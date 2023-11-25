@@ -40,4 +40,6 @@ dependencies {
     testImplementation(Testing.junit)
     androidTestImplementation(Testing.test_ext_junit)
     androidTestImplementation(Testing.espresso_core)
+
+    implementation(project(":domain"))
 }

@@ -1,4 +1,4 @@
-package chn.phm.fashionly.ui.theme
+package chn.phm.presentation.base.theme
 
 import androidx.compose.ui.graphics.Color
 

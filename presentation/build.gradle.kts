@@ -28,16 +28,30 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+
+    buildFeatures {
+        compose = true
+        viewBinding = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = Versions.kotlinCompilerExtensionVersion
     }
 }
 
 dependencies {
     implementation(Android.android_core_ktx)
     implementation(Android.app_compat)
+    implementation(Android.activity_compose)
+    implementation(Android.compose_ui_tooling_preview)
     implementation(Android.material_3)
     testImplementation(Testing.junit)
     androidTestImplementation(Testing.test_ext_junit)
     androidTestImplementation(Testing.espresso_core)
+
+    implementation(project(":domain"))
 }
