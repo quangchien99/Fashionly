@@ -15,6 +15,8 @@ object Android {
     const val compose_ui_tooling_preview =
         "androidx.compose.ui:ui-tooling-preview:${Versions.composeVersion}"
     const val compose_ui_tooling = "androidx.compose.ui:ui-tooling:${Versions.composeVersion}"
+    const val compose_foundation =
+        "androidx.compose.foundation:foundation:${Versions.composeFoundation}"
 
     const val material_3 = "androidx.compose.material3:material3:${Versions.materialVersion}"
 }
@@ -27,5 +29,5 @@ object Testing {
 }
 
 object Libraries {
-
+    const val lottie_compose = "com.airbnb.android:lottie-compose:${Versions.lottieCompose}"
 }

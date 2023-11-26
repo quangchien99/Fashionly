@@ -31,12 +31,14 @@ object Versions {
     const val composeVersion = "1.5.4"
     const val activityComposeVersion = "1.8.1"
     const val kotlinCompilerExtensionVersion = "1.2.0"
+    const val composeFoundation = "1.5.4"
 
 
     /*
     3rd libraries
      */
     const val ktlinVersion = "11.1.0"
+    const val lottieCompose = "5.2.0"
 
     /*
     Testing

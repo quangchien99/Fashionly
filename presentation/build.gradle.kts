@@ -48,10 +48,14 @@ dependencies {
     implementation(Android.app_compat)
     implementation(Android.activity_compose)
     implementation(Android.compose_ui_tooling_preview)
+    implementation(Android.compose_foundation)
     implementation(Android.material_3)
     testImplementation(Testing.junit)
     androidTestImplementation(Testing.test_ext_junit)
     androidTestImplementation(Testing.espresso_core)
+
+    // Lottie
+    implementation(Libraries.lottie_compose)
 
     implementation(project(":domain"))
 }
