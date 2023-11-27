@@ -33,7 +33,7 @@ object Versions {
     const val kotlinCompilerExtensionVersion = "1.2.0"
     const val composeFoundationVersion = "1.5.4"
     const val dataStorePreferencesVersion = "1.0.0"
-
+    const val navigationCompose = "2.7.5"
 
     /*
     3rd libraries
@@ -41,6 +41,7 @@ object Versions {
     const val ktlinVersion = "11.1.0"
     const val lottieComposeVersion = "5.2.0"
     const val hiltVersion = "2.44"
+    const val hiltNavigationComposeVersion = "1.0.0"
 
     /*
     Testing

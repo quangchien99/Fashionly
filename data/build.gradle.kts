@@ -43,7 +43,8 @@ dependencies {
     androidTestImplementation(Testing.test_ext_junit)
     androidTestImplementation(Testing.espresso_core)
 
-    // Hilt
+    implementation(Android.datastore_references)
+
     // Hilt
     implementation(Libraries.dagger_hilt_android)
     kapt(Libraries.dagger_hilt_compiler)

@@ -51,7 +51,11 @@ dependencies {
     implementation(Android.activity_compose)
     implementation(Android.compose_ui_tooling_preview)
     implementation(Android.compose_foundation)
+    implementation(Android.lifecycle_viewmodel_compose)
+    implementation(Android.hilt_navigation_compose)
     implementation(Android.material_3)
+    implementation(Android.navigation_compose)
+
     testImplementation(Testing.junit)
     androidTestImplementation(Testing.test_ext_junit)
     androidTestImplementation(Testing.espresso_core)

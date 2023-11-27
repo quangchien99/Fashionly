@@ -8,9 +8,15 @@ object Android {
     const val app_compat = "androidx.appcompat:appcompat:${Versions.appCompatVersion}"
     const val lifecycle_runtime_ktx =
         "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycleVersion}"
+    const val lifecycle_viewmodel_compose =
+        "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.lifecycleVersion}"
 
     const val activity_compose =
         "androidx.activity:activity-compose:${Versions.activityComposeVersion}"
+    const val hilt_navigation_compose =
+        "androidx.hilt:hilt-navigation-compose:${Versions.hiltNavigationComposeVersion}"
+    const val navigation_compose =
+        "androidx.navigation:navigation-compose:${Versions.navigationCompose}"
     const val compose_ui = "androidx.compose.ui:ui:${Versions.composeVersion}"
     const val compose_ui_tooling_preview =
         "androidx.compose.ui:ui-tooling-preview:${Versions.composeVersion}"

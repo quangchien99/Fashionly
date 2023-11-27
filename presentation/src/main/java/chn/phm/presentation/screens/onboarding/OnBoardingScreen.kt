@@ -1,4 +1,4 @@
-package chn.phm.presentation.onboarding
+package chn.phm.presentation.screens.onboarding
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -37,8 +37,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import chn.phm.domain.model.onboarding.OnBoardingData
 import chn.phm.presentation.R
+import chn.phm.presentation.base.navigation.Screen
 import chn.phm.presentation.base.theme.Grey300
 import chn.phm.presentation.base.theme.Grey900
 import chn.phm.presentation.base.theme.RedLight
@@ -52,12 +55,15 @@ const val TOTAL_NUMBER_OF_PAGES = 3
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OnBoardingScreen(
+    navHostController: NavHostController,
     modifier: Modifier = Modifier
         .fillMaxWidth()
         .fillMaxHeight()
-        .background(color = Color.White),
-    onFinished: () -> Unit
+        .background(color = Color.White)
 ) {
+
+    val viewModel: OnBoardingViewModel = hiltViewModel()
+
     val pagerState = rememberPagerState() {
         TOTAL_NUMBER_OF_PAGES
     }
@@ -125,7 +131,10 @@ fun OnBoardingScreen(
         ) {
             BottomSection(
                 currentPager = pagerState.currentPage,
-                onFinished = onFinished,
+                onFinished = {
+                    viewModel.markFirstTimeOpened()
+                    navHostController.navigate(Screen.HomeScreen.route)
+                },
                 onNext = {
                     navigateNext = true
                 }
