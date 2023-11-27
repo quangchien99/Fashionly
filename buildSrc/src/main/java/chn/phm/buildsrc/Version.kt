@@ -18,7 +18,7 @@ object Versions {
      */
     const val coreKtxVersion = "1.12.0"
     const val lifecycleVersion = "2.6.2"
-    const val appCompat = "1.6.1"
+    const val appCompatVersion = "1.6.1"
 
     /*
     Material
@@ -31,14 +31,16 @@ object Versions {
     const val composeVersion = "1.5.4"
     const val activityComposeVersion = "1.8.1"
     const val kotlinCompilerExtensionVersion = "1.2.0"
-    const val composeFoundation = "1.5.4"
+    const val composeFoundationVersion = "1.5.4"
+    const val dataStorePreferencesVersion = "1.0.0"
 
 
     /*
     3rd libraries
      */
     const val ktlinVersion = "11.1.0"
-    const val lottieCompose = "5.2.0"
+    const val lottieComposeVersion = "5.2.0"
+    const val hiltVersion = "2.44"
 
     /*
     Testing

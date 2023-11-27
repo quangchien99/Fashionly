@@ -2,6 +2,8 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("org.jlleitschuh.gradle.ktlint")
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -57,5 +59,13 @@ dependencies {
     // Lottie
     implementation(Libraries.lottie_compose)
 
+    // Hilt
+    implementation(Libraries.dagger_hilt_android)
+    kapt(Libraries.dagger_hilt_compiler)
+
     implementation(project(":domain"))
+}
+
+kapt {
+    correctErrorTypes = true
 }

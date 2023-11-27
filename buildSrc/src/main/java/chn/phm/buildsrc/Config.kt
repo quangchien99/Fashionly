@@ -5,7 +5,7 @@ object BuildPlugins {
 
 object Android {
     const val android_core_ktx = "androidx.core:core-ktx:${Versions.coreKtxVersion}"
-    const val app_compat = "androidx.appcompat:appcompat:${Versions.appCompat}"
+    const val app_compat = "androidx.appcompat:appcompat:${Versions.appCompatVersion}"
     const val lifecycle_runtime_ktx =
         "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycleVersion}"
 
@@ -16,9 +16,11 @@ object Android {
         "androidx.compose.ui:ui-tooling-preview:${Versions.composeVersion}"
     const val compose_ui_tooling = "androidx.compose.ui:ui-tooling:${Versions.composeVersion}"
     const val compose_foundation =
-        "androidx.compose.foundation:foundation:${Versions.composeFoundation}"
+        "androidx.compose.foundation:foundation:${Versions.composeFoundationVersion}"
 
     const val material_3 = "androidx.compose.material3:material3:${Versions.materialVersion}"
+    const val datastore_references =
+        "androidx.datastore:datastore-preferences:${Versions.dataStorePreferencesVersion}"
 }
 
 object Testing {
@@ -29,5 +31,7 @@ object Testing {
 }
 
 object Libraries {
-    const val lottie_compose = "com.airbnb.android:lottie-compose:${Versions.lottieCompose}"
+    const val lottie_compose = "com.airbnb.android:lottie-compose:${Versions.lottieComposeVersion}"
+    const val dagger_hilt_android = "com.google.dagger:hilt-android:${Versions.hiltVersion}"
+    const val dagger_hilt_compiler = "com.google.dagger:hilt-compiler:${Versions.hiltVersion}"
 }
