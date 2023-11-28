@@ -10,7 +10,6 @@ import androidx.navigation.compose.composable
 import chn.phm.presentation.screens.home.HomeScreen
 import chn.phm.presentation.screens.onboarding.OnBoardingScreen
 import chn.phm.presentation.screens.splash.SplashScreen
-import kotlin.system.exitProcess
 
 @Composable
 fun FashionlyNavHost(navController: NavHostController) {

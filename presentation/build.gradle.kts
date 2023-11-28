@@ -63,6 +63,9 @@ dependencies {
     // Lottie
     implementation(Libraries.lottie_compose)
 
+    // Coil
+    implementation(Libraries.coil_compose)
+
     // Hilt
     implementation(Libraries.dagger_hilt_android)
     kapt(Libraries.dagger_hilt_compiler)

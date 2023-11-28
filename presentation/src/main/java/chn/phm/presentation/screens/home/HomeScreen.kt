@@ -10,6 +10,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -38,6 +40,7 @@ fun HomeScreen(
     modifier: Modifier = Modifier.background(Color.Transparent)
 ) {
     var currentTab by remember { mutableStateOf(HomeTab.Fashionly) }
+    val snackbarHostState = SnackbarHostState()
 
     Scaffold(
         modifier = Modifier.background(Color.Transparent),
@@ -45,10 +48,14 @@ fun HomeScreen(
             BottomNavigationBar(currentTab) { selectedTab ->
                 currentTab = selectedTab
             }
-        }
+        },
+        snackbarHost = { SnackbarHost(snackbarHostState) }
     ) {
         when (currentTab) {
-            HomeTab.Fashionly -> FashionlyScreen(navHostController)
+            HomeTab.Fashionly -> FashionlyScreen(
+                navHostController,
+                snackbarHostState = snackbarHostState
+            )
             HomeTab.History -> HistoryScreen(navHostController)
             HomeTab.Setting -> SettingScreen(navHostController)
         }

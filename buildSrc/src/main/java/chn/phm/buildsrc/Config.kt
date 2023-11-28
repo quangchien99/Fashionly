@@ -40,4 +40,5 @@ object Libraries {
     const val lottie_compose = "com.airbnb.android:lottie-compose:${Versions.lottieComposeVersion}"
     const val dagger_hilt_android = "com.google.dagger:hilt-android:${Versions.hiltVersion}"
     const val dagger_hilt_compiler = "com.google.dagger:hilt-compiler:${Versions.hiltVersion}"
+    const val coil_compose = "io.coil-kt:coil-compose:${Versions.coilVersion}"
 }

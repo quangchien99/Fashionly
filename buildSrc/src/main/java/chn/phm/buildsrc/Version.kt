@@ -42,6 +42,7 @@ object Versions {
     const val lottieComposeVersion = "5.2.0"
     const val hiltVersion = "2.44"
     const val hiltNavigationComposeVersion = "1.0.0"
+    const val coilVersion = "2.2.2"
 
     /*
     Testing
