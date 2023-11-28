@@ -9,4 +9,17 @@
     <string name="on_boarding_screen_2nd_description">Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface.</string>
     <string name="on_boarding_screen_3rd_title">Title 3</string>
     <string name="on_boarding_screen_3rd_description">Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface.</string>
+
+    <!--    Home-->
+    <string name="home_note_content">The ideal input images should have white background, fully visible model body, and the cloth should be an individual piece.</string>
+    <string name="home_mix">Mix</string>
+    <string name="home_model_image">Model Image</string>
+    <string name="home_cloth_image">Cloth Image</string>
+    <string name="home_prompt_hint">A realistic photo of a model wearing a beautiful white top.</string>
+    <string name="home_prompt">Prompt:</string>
+    <string name="home_content_desc_add_image">Add Image</string>
+    <string name="home_content_desc_select_image">Selected Image</string>
+    <string name="home_screen_fashionly_name">Fashionly</string>
+    <string name="home_screen_history_name">History</string>
+    <string name="home_screen_setting_name">Setting</string>
 </resources>
