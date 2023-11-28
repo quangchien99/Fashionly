@@ -22,13 +22,17 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -44,13 +48,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import chn.phm.presentation.R
-import chn.phm.presentation.base.theme.RedLight
 import chn.phm.presentation.utils.permission.PermissionHandlerHost
 import chn.phm.presentation.utils.permission.PermissionHandlerHostState
 import chn.phm.presentation.utils.permission.PermissionHandlerResult
@@ -58,6 +59,7 @@ import chn.phm.presentation.utils.permission.showAppSettingsSnackbar
 import coil.compose.rememberAsyncImagePainter
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FashionlyScreen(
     navHostController: NavHostController,
@@ -71,6 +73,13 @@ fun FashionlyScreen(
     val modelImageUri = remember { mutableStateOf<Uri?>(null) }
     val clothImageUri = remember { mutableStateOf<Uri?>(null) }
 
+    var showSuggestionBottomSheet by remember { mutableStateOf(false) }
+    if (showSuggestionBottomSheet) {
+        SuggestionBottomSheet() {
+            showSuggestionBottomSheet = false
+        }
+    }
+
     Box(modifier = modifier.fillMaxSize()) {
         Column(
             modifier = modifier.fillMaxSize(),
@@ -78,8 +87,6 @@ fun FashionlyScreen(
             verticalArrangement = Arrangement.Center
         ) {
             HeaderSection(modelImageUri, clothImageUri)
-
-            NoteSection()
 
             Column(
                 modifier = modifier
@@ -103,6 +110,7 @@ fun FashionlyScreen(
                 .height(40.dp)
                 .width(40.dp)
                 .clickable {
+                    showSuggestionBottomSheet = true
                 },
             contentDescription = "Suggestion"
         )
@@ -138,19 +146,6 @@ fun HeaderSection(modelImage: MutableState<Uri?>, clothImage: MutableState<Uri?>
 
         MixButton(modelImage = modelImage, clothImage = clothImage)
     }
-}
-
-@Composable
-fun NoteSection() {
-    Text(
-        text = stringResource(id = R.string.home_note_content),
-        color = RedLight,
-        textAlign = TextAlign.Center,
-        modifier = Modifier
-            .padding(bottom = 8.dp, top = 16.dp)
-            .fillMaxWidth(0.9f),
-        style = MaterialTheme.typography.labelSmall.copy(fontStyle = FontStyle.Italic)
-    )
 }
 
 @Composable
@@ -314,4 +309,31 @@ fun RoundedCornerOutlinedTextField(
         ),
         maxLines = 1
     )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SuggestionBottomSheet(onDismiss: () -> Unit) {
+    val modalBottomSheetState = rememberModalBottomSheetState()
+
+    ModalBottomSheet(
+        onDismissRequest = { onDismiss() },
+        sheetState = modalBottomSheetState,
+        dragHandle = { BottomSheetDefaults.DragHandle() },
+    ) {
+        Text(
+            stringResource(id = R.string.home_note_content),
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(32.dp)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(
+            onClick = { onDismiss() },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 40.dp, vertical = 20.dp)
+        ) {
+            Text("Confirm")
+        }
+    }
 }
