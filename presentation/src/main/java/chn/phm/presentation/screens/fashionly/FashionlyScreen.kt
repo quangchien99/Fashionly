@@ -8,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +29,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.SnackbarHostState
@@ -58,8 +60,8 @@ import chn.phm.presentation.utils.permission.PermissionHandlerResult
 import chn.phm.presentation.utils.permission.showAppSettingsSnackbar
 import coil.compose.rememberAsyncImagePainter
 import kotlinx.coroutines.launch
+import java.util.Locale
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FashionlyScreen(
     navHostController: NavHostController,
@@ -84,9 +86,10 @@ fun FashionlyScreen(
         Column(
             modifier = modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
         ) {
             HeaderSection(modelImageUri, clothImageUri)
+
+            ClothingSelector()
 
             Column(
                 modifier = modifier
@@ -94,7 +97,6 @@ fun FashionlyScreen(
                     .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
                 ImageSelectionSection(
                     modelImage = modelImageUri,
                     clothImage = clothImageUri,
@@ -125,7 +127,7 @@ fun HeaderSection(modelImage: MutableState<Uri?>, clothImage: MutableState<Uri?>
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 24.dp),
+            .padding(horizontal = 8.dp, vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -309,6 +311,37 @@ fun RoundedCornerOutlinedTextField(
         ),
         maxLines = 1
     )
+}
+
+@Composable
+fun ClothingSelector() {
+    var selectedOption by remember { mutableStateOf<ClothType?>(null) }
+    val scrollState = rememberScrollState()
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+            .horizontalScroll(scrollState),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        ClothType.values().forEach { option ->
+            OutlinedButton(
+                onClick = { selectedOption = option },
+                colors = ButtonDefaults.outlinedButtonColors(
+                    containerColor = if (option == selectedOption) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
+                    contentColor = if (option == selectedOption) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
+                )
+            ) {
+                Text(
+                    text = option.name.replace('_', ' ').lowercase()
+                        .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() },
+                    maxLines = 1,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
