@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -88,7 +89,7 @@ fun BottomNavigationBar(
             label = { Text(stringResource(id = R.string.home_screen_history_name)) },
             icon = {
                 Icon(
-                    Icons.Default.Check,
+                    painterResource(id = R.drawable.ic_history),
                     contentDescription = stringResource(id = R.string.home_screen_history_name)
                 )
             },
