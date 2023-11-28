@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -39,6 +40,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -61,7 +63,7 @@ fun FashionlyScreen(
     navHostController: NavHostController,
     modifier: Modifier = Modifier
         .fillMaxSize()
-        .padding(bottom = 64.dp)
+        .padding(bottom = 24.dp)
         .background(color = Color.White),
     snackbarHostState: SnackbarHostState
 ) {
@@ -69,19 +71,40 @@ fun FashionlyScreen(
     val modelImageUri = remember { mutableStateOf<Uri?>(null) }
     val clothImageUri = remember { mutableStateOf<Uri?>(null) }
 
-    Column(
-        modifier = modifier.verticalScroll(scrollState),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    Box(modifier = modifier.fillMaxSize()) {
+        Column(
+            modifier = modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            HeaderSection(modelImageUri, clothImageUri)
 
-        HeaderSection(modelImageUri, clothImageUri)
+            NoteSection()
 
-        NoteSection()
+            Column(
+                modifier = modifier
+                    .verticalScroll(scrollState)
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
 
-        ImageSelectionSection(
-            modelImage = modelImageUri,
-            clothImage = clothImageUri,
-            snackbarHostState = snackbarHostState
+                ImageSelectionSection(
+                    modelImage = modelImageUri,
+                    clothImage = clothImageUri,
+                    snackbarHostState = snackbarHostState
+                )
+            }
+        }
+        Image(
+            painter = painterResource(id = R.drawable.ic_suggestion),
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(bottom = 64.dp, end = 12.dp)
+                .height(40.dp)
+                .width(40.dp)
+                .clickable {
+                },
+            contentDescription = "Suggestion"
         )
     }
 }
@@ -171,7 +194,7 @@ fun ImageSelectionSection(
         modifier = Modifier.padding(vertical = 16.dp)
     )
 
-    FashionlyImage(image = modelImage) {
+    FashionlyImage(image = modelImage, defaultImageId = R.raw.model_image_sample) {
         coroutineScope.launch {
             snackbarHostState.currentSnackbarData?.dismiss()
             when (permissionHandlerHostState.handlePermissions()) {
@@ -197,7 +220,7 @@ fun ImageSelectionSection(
         style = MaterialTheme.typography.bodyMedium
     )
 
-    FashionlyImage(image = clothImage) {
+    FashionlyImage(image = clothImage, defaultImageId = R.raw.cloth_image_sampe) {
         coroutineScope.launch {
             snackbarHostState.currentSnackbarData?.dismiss()
             when (permissionHandlerHostState.handlePermissions()) {
@@ -238,7 +261,7 @@ fun MixButton(modelImage: MutableState<Uri?>, clothImage: MutableState<Uri?>) {
 }
 
 @Composable
-fun FashionlyImage(image: MutableState<Uri?>, onImageClick: () -> Unit) {
+fun FashionlyImage(image: MutableState<Uri?>, defaultImageId: Int, onImageClick: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth(0.7f)
@@ -248,20 +271,16 @@ fun FashionlyImage(image: MutableState<Uri?>, onImageClick: () -> Unit) {
             .clickable(onClick = onImageClick),
         contentAlignment = Alignment.Center
     ) {
-        if (image.value != null) {
-            val painter = rememberAsyncImagePainter(model = image.value)
-            Image(
-                painter = painter,
-                contentDescription = stringResource(id = R.string.home_content_desc_select_image),
-                modifier = Modifier.fillMaxSize()
-            )
-        } else {
-            Image(
-                painter = painterResource(id = R.drawable.ic_add_image),
-                contentDescription = stringResource(id = R.string.home_content_desc_add_image),
-                modifier = Modifier.fillMaxSize(0.5f)
-            )
-        }
+        Image(
+            painter = if (image.value != null) {
+                rememberAsyncImagePainter(model = image.value)
+            } else {
+                painterResource(id = defaultImageId)
+            },
+            contentScale = ContentScale.Crop,
+            contentDescription = stringResource(id = R.string.home_content_desc_select_image),
+            modifier = Modifier.fillMaxSize()
+        )
     }
 }
 
