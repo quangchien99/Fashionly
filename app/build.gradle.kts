@@ -4,6 +4,7 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -72,6 +73,11 @@ dependencies {
     // Retrofit
     implementation(Libraries.retrofit)
     implementation(Libraries.retrofit_converter_gson)
+
+    // Firebase
+    implementation(platform(Libraries.firebase_bom))
+    implementation(Libraries.firebase_analytics)
+    implementation(Libraries.firebase_remote_config)
 
     implementation(project(":presentation"))
     implementation(project(":data"))

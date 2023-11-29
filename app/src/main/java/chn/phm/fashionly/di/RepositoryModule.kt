@@ -4,9 +4,12 @@ import android.content.Context
 import chn.phm.data.local.preference.SettingStoreManager
 import chn.phm.data.remote.FashionlyApi
 import chn.phm.data.repository.FashionlyRepositoryImpl
+import chn.phm.data.repository.RemoteConfigRepositoryImpl
 import chn.phm.data.repository.SettingRepositoryImpl
 import chn.phm.domain.repository.FashionlyRepository
+import chn.phm.domain.repository.RemoteConfigRepository
 import chn.phm.domain.repository.SettingRepository
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,5 +37,11 @@ object RepositoryModule {
     @ViewModelScoped
     fun provideFashionlyRepository(fashionlyApi: FashionlyApi): FashionlyRepository {
         return FashionlyRepositoryImpl(fashionlyApi)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideRemoteConfigRepository(firebaseRemoteConfig: FirebaseRemoteConfig): RemoteConfigRepository {
+        return RemoteConfigRepositoryImpl(firebaseRemoteConfig)
     }
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "42722509860",
+    "project_id": "fashionly-e0d56",
+    "storage_bucket": "fashionly-e0d56.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:42722509860:android:f2848d0abcba62e3f284b1",
+        "android_client_info": {
+          "package_name": "chn.phm.fashionly"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbCxmbu0KJltnePA53z61BrF30TrMMwAc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

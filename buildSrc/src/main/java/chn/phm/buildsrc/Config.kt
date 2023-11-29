@@ -42,8 +42,15 @@ object Libraries {
     const val dagger_hilt_compiler = "com.google.dagger:hilt-compiler:${Versions.hiltVersion}"
     const val coil_compose = "io.coil-kt:coil-compose:${Versions.coilVersion}"
     const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofitVersion}"
-    const val retrofit_converter_gson = "com.squareup.retrofit2:converter-gson:${Versions.retrofitVersion}"
+    const val retrofit_converter_gson =
+        "com.squareup.retrofit2:converter-gson:${Versions.retrofitVersion}"
     const val gson = "com.google.code.gson:gson:${Versions.gsonVersion}"
     const val logging_interceptor =
         "com.squareup.okhttp3:logging-interceptor:${Versions.okhttpLoggingVersion}"
+
+    const val firebase_bom = "com.google.firebase:firebase-bom:${Versions.firebaseBomVersion}"
+    const val firebase_analytics = "com.google.firebase:firebase-analytics"
+    const val firebase_remote_config = "com.google.firebase:firebase-config"
+    const val coroutines_play_services =
+        "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Versions.coroutinesPlayServicesVersion}"
 }

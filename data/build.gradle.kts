@@ -57,6 +57,12 @@ dependencies {
     implementation(Libraries.retrofit_converter_gson)
     implementation(Libraries.logging_interceptor)
 
+    // Firebase
+    implementation(platform(Libraries.firebase_bom))
+    implementation(Libraries.firebase_analytics)
+    implementation(Libraries.firebase_remote_config)
+    implementation(Libraries.coroutines_play_services)
+
     implementation(project(":domain"))
 }
 

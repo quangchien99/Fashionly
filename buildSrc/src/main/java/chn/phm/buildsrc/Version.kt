@@ -48,6 +48,13 @@ object Versions {
     const val okhttpLoggingVersion = "5.0.0-alpha.5"
 
     /*
+    Firebase
+     */
+    const val googleServicesVersion = "4.3.14"
+    const val firebaseBomVersion = "32.3.0"
+    const val coroutinesPlayServicesVersion = "1.7.1"
+
+    /*
     Testing
      */
     const val junitVersion = "4.13.2"
