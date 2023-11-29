@@ -43,6 +43,9 @@ object Versions {
     const val hiltVersion = "2.44"
     const val hiltNavigationComposeVersion = "1.0.0"
     const val coilVersion = "2.2.2"
+    const val retrofitVersion = "2.9.0"
+    const val gsonVersion = "2.9.1"
+    const val okhttpLoggingVersion = "5.0.0-alpha.5"
 
     /*
     Testing

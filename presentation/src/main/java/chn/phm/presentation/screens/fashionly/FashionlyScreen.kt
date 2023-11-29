@@ -52,6 +52,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import chn.phm.presentation.R
 import chn.phm.presentation.utils.permission.PermissionHandlerHost
@@ -71,6 +72,8 @@ fun FashionlyScreen(
         .background(color = Color.White),
     snackbarHostState: SnackbarHostState
 ) {
+    val viewModel: FashionlyViewModel = hiltViewModel()
+
     val scrollState = rememberScrollState()
     val modelImageUri = remember { mutableStateOf<Uri?>(null) }
     val clothImageUri = remember { mutableStateOf<Uri?>(null) }
@@ -87,7 +90,7 @@ fun FashionlyScreen(
             modifier = modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            HeaderSection(modelImageUri, clothImageUri)
+            HeaderSection(modelImageUri, clothImageUri) { viewModel.testApi() }
 
             ClothingSelector()
 
@@ -120,7 +123,11 @@ fun FashionlyScreen(
 }
 
 @Composable
-fun HeaderSection(modelImage: MutableState<Uri?>, clothImage: MutableState<Uri?>) {
+fun HeaderSection(
+    modelImage: MutableState<Uri?>,
+    clothImage: MutableState<Uri?>,
+    onMixBtnClicked: () -> Unit
+) {
     val hint = stringResource(id = R.string.home_prompt_hint)
     var text by remember { mutableStateOf(hint) }
 
@@ -146,7 +153,7 @@ fun HeaderSection(modelImage: MutableState<Uri?>, clothImage: MutableState<Uri?>
             placeholder = hint
         )
 
-        MixButton(modelImage = modelImage, clothImage = clothImage)
+        MixButton(modelImage = modelImage, clothImage = clothImage, onClicked = onMixBtnClicked)
     }
 }
 
@@ -240,9 +247,13 @@ fun ImageSelectionSection(
 }
 
 @Composable
-fun MixButton(modelImage: MutableState<Uri?>, clothImage: MutableState<Uri?>) {
+fun MixButton(
+    modelImage: MutableState<Uri?>,
+    clothImage: MutableState<Uri?>,
+    onClicked: () -> Unit
+) {
     Button(
-        onClick = { /* Handle button click here */ },
+        onClick = { onClicked() },
         enabled = modelImage.value != null && clothImage.value != null,
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Blue,

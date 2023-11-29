@@ -41,4 +41,9 @@ object Libraries {
     const val dagger_hilt_android = "com.google.dagger:hilt-android:${Versions.hiltVersion}"
     const val dagger_hilt_compiler = "com.google.dagger:hilt-compiler:${Versions.hiltVersion}"
     const val coil_compose = "io.coil-kt:coil-compose:${Versions.coilVersion}"
+    const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofitVersion}"
+    const val retrofit_converter_gson = "com.squareup.retrofit2:converter-gson:${Versions.retrofitVersion}"
+    const val gson = "com.google.code.gson:gson:${Versions.gsonVersion}"
+    const val logging_interceptor =
+        "com.squareup.okhttp3:logging-interceptor:${Versions.okhttpLoggingVersion}"
 }

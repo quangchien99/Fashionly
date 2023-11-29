@@ -66,6 +66,13 @@ dependencies {
     implementation(Libraries.dagger_hilt_android)
     kapt(Libraries.dagger_hilt_compiler)
 
+    // Gson
+    implementation(Libraries.gson)
+
+    // Retrofit
+    implementation(Libraries.retrofit)
+    implementation(Libraries.retrofit_converter_gson)
+
     implementation(project(":presentation"))
     implementation(project(":data"))
     implementation(project(":domain"))
