@@ -51,6 +51,9 @@ object Libraries {
     const val firebase_bom = "com.google.firebase:firebase-bom:${Versions.firebaseBomVersion}"
     const val firebase_analytics = "com.google.firebase:firebase-analytics"
     const val firebase_remote_config = "com.google.firebase:firebase-config"
+    const val firebase_storage = "com.google.firebase:firebase-storage-ktx"
     const val coroutines_play_services =
         "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Versions.coroutinesPlayServicesVersion}"
+    const val kotlinx_coroutines_core =
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinxCoroutinesCore}"
 }

@@ -6,10 +6,12 @@ import chn.phm.data.remote.FashionlyApi
 import chn.phm.data.repository.FashionlyRepositoryImpl
 import chn.phm.data.repository.RemoteConfigRepositoryImpl
 import chn.phm.data.repository.SettingRepositoryImpl
+import chn.phm.data.utils.DeviceInfoProvider
 import chn.phm.domain.repository.FashionlyRepository
 import chn.phm.domain.repository.RemoteConfigRepository
 import chn.phm.domain.repository.SettingRepository
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.storage.StorageReference
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,8 +37,12 @@ object RepositoryModule {
 
     @Provides
     @ViewModelScoped
-    fun provideFashionlyRepository(fashionlyApi: FashionlyApi): FashionlyRepository {
-        return FashionlyRepositoryImpl(fashionlyApi)
+    fun provideFashionlyRepository(
+        fashionlyApi: FashionlyApi,
+        storageReference: StorageReference,
+        deviceInfoProvider: DeviceInfoProvider
+    ): FashionlyRepository {
+        return FashionlyRepositoryImpl(fashionlyApi, storageReference, deviceInfoProvider)
     }
 
     @Provides

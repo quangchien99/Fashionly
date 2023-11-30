@@ -46,6 +46,7 @@ object Versions {
     const val retrofitVersion = "2.9.0"
     const val gsonVersion = "2.9.1"
     const val okhttpLoggingVersion = "5.0.0-alpha.5"
+    const val kotlinxCoroutinesCore = "1.7.3"
 
     /*
     Firebase

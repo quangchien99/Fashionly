@@ -90,7 +90,11 @@ fun FashionlyScreen(
             modifier = modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            HeaderSection(modelImageUri, clothImageUri) { viewModel.testApi() }
+            HeaderSection(modelImageUri, clothImageUri) {
+                viewModel.uploadImages(
+                    listOf(modelImageUri.value!!, clothImageUri.value!!)
+                )
+            }
 
             ClothingSelector()
 

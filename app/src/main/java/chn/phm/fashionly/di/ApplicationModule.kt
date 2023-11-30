@@ -1,12 +1,17 @@
 package chn.phm.fashionly.di
 
+import android.content.Context
 import chn.phm.data.remote.network.NetworkClient
 import chn.phm.data.remote.network.NetworkRetrofit
+import chn.phm.data.utils.DeviceInfoProvider
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -27,4 +32,14 @@ object ApplicationModule {
     @Provides
     @Singleton
     fun retrofit(networkRetrofit: NetworkRetrofit): Retrofit = networkRetrofit.retrofit
+
+    @Singleton
+    @Provides
+    fun provideStorageReference() = Firebase.storage.reference
+
+    @Singleton
+    @Provides
+    fun provideDeviceInfoProvider(@ApplicationContext context: Context): DeviceInfoProvider {
+        return DeviceInfoProvider(context)
+    }
 }

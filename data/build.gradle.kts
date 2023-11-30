@@ -62,6 +62,9 @@ dependencies {
     implementation(Libraries.firebase_analytics)
     implementation(Libraries.firebase_remote_config)
     implementation(Libraries.coroutines_play_services)
+    implementation(Libraries.firebase_storage)
+
+    implementation(Libraries.kotlinx_coroutines_core)
 
     implementation(project(":domain"))
 }

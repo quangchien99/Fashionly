@@ -78,6 +78,7 @@ dependencies {
     implementation(platform(Libraries.firebase_bom))
     implementation(Libraries.firebase_analytics)
     implementation(Libraries.firebase_remote_config)
+    implementation(Libraries.firebase_storage)
 
     implementation(project(":presentation"))
     implementation(project(":data"))
