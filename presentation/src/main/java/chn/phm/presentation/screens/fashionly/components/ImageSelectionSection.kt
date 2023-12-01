@@ -7,15 +7,11 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -61,15 +57,14 @@ fun ImageSelectionSection(
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
 
-    Text(
-        text = stringResource(id = R.string.home_model_image),
-        color = Color.Black,
-        style = MaterialTheme.typography.bodyMedium,
-        modifier = Modifier.padding(vertical = 16.dp)
-    )
     val message = stringResource(id = R.string.common_permission_denied)
     val openSettingsActionLabel = stringResource(id = R.string.common_settings)
-    FashionlyImage(image = modelImage, defaultImageId = R.raw.model_image_sample) {
+
+    FashionlyImage(
+        title = stringResource(id = R.string.home_model_image),
+        image = modelImage,
+        defaultImageId = R.raw.model_image_sample
+    ) {
         coroutineScope.launch {
             snackbarHostState.currentSnackbarData?.dismiss()
             when (permissionHandlerHostState.handlePermissions()) {
@@ -88,14 +83,13 @@ fun ImageSelectionSection(
         }
     }
 
-    Text(
-        text = stringResource(id = R.string.home_cloth_image),
-        color = Color.Black,
-        modifier = Modifier.padding(vertical = 16.dp),
-        style = MaterialTheme.typography.bodyMedium
-    )
+    Spacer(modifier = Modifier.height(16.dp))
 
-    FashionlyImage(image = clothImage, defaultImageId = R.raw.cloth_image_sampe) {
+    FashionlyImage(
+        title = stringResource(id = R.string.home_cloth_image),
+        image = clothImage,
+        defaultImageId = R.raw.cloth_image_sampe
+    ) {
         coroutineScope.launch {
             snackbarHostState.currentSnackbarData?.dismiss()
             when (permissionHandlerHostState.handlePermissions()) {
