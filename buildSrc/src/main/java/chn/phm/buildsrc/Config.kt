@@ -16,7 +16,7 @@ object Android {
     const val hilt_navigation_compose =
         "androidx.hilt:hilt-navigation-compose:${Versions.hiltNavigationComposeVersion}"
     const val navigation_compose =
-        "androidx.navigation:navigation-compose:${Versions.navigationCompose}"
+        "androidx.navigation:navigation-compose:${Versions.navigationComposeVersion}"
     const val compose_ui = "androidx.compose.ui:ui:${Versions.composeVersion}"
     const val compose_ui_tooling_preview =
         "androidx.compose.ui:ui-tooling-preview:${Versions.composeVersion}"
@@ -27,6 +27,7 @@ object Android {
     const val material_3 = "androidx.compose.material3:material3:${Versions.materialVersion}"
     const val datastore_references =
         "androidx.datastore:datastore-preferences:${Versions.dataStorePreferencesVersion}"
+    const val compose_live_data = "androidx.compose.runtime:runtime-livedata:${Versions.composeVersion}"
 }
 
 object Testing {

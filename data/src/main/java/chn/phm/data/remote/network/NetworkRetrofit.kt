@@ -13,7 +13,7 @@ class NetworkRetrofit @Inject constructor(
     gson: Gson
 ) {
     val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl("https://retroftcoroutines.free.beeceptor.com/")
+        .baseUrl("https://stablediffusionapi.com/")
         .addCallAdapterFactory(NetworkResponseAdapterFactory())
         .addConverterFactory(GsonConverterFactory.create(gson))
         .client(okHttpClient)

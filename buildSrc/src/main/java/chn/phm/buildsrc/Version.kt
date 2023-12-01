@@ -33,7 +33,8 @@ object Versions {
     const val kotlinCompilerExtensionVersion = "1.2.0"
     const val composeFoundationVersion = "1.5.4"
     const val dataStorePreferencesVersion = "1.0.0"
-    const val navigationCompose = "2.7.5"
+    const val navigationComposeVersion = "2.7.5"
+    const val composeLiveDataVersion = "2.7.5"
 
     /*
     3rd libraries
@@ -46,7 +47,7 @@ object Versions {
     const val retrofitVersion = "2.9.0"
     const val gsonVersion = "2.9.1"
     const val okhttpLoggingVersion = "5.0.0-alpha.5"
-    const val kotlinxCoroutinesCore = "1.7.3"
+    const val kotlinxCoroutinesCore = "1.5.4"
 
     /*
     Firebase

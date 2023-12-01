@@ -1,9 +1,13 @@
 package chn.phm.data.repository
 
 import android.net.Uri
+import chn.phm.data.mapper.toFashionlyRequest
+import chn.phm.data.mapper.toFashionlyResult
 import chn.phm.data.remote.FashionlyApi
 import chn.phm.data.remote.network.NetworkResponse
 import chn.phm.data.utils.DeviceInfoProvider
+import chn.phm.domain.model.fashionly.FashionlyData
+import chn.phm.domain.model.fashionly.FashionlyResult
 import chn.phm.domain.repository.FashionlyRepository
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.storage.StorageReference
@@ -16,24 +20,6 @@ class FashionlyRepositoryImpl @Inject constructor(
     private val storageReference: StorageReference,
     private val deviceInfoProvider: DeviceInfoProvider
 ) : FashionlyRepository {
-
-    override suspend fun testApi(): String {
-        val response = fashionlyApi.testApi()
-        return when (response) {
-            is NetworkResponse.Success -> {
-                response.body
-            }
-            is NetworkResponse.ApiError -> {
-                "ApiError $response"
-            }
-            is NetworkResponse.NetworkError -> {
-                "NetworkError ${response.error}"
-            }
-            is NetworkResponse.UnknownError -> {
-                "UnknownError ${response.error}"
-            }
-        }
-    }
 
     override suspend fun uploadImages(uris: List<Uri>): Result<List<String>> =
         suspendCoroutine { continuation ->
@@ -60,4 +46,25 @@ class FashionlyRepositoryImpl @Inject constructor(
                     continuation.resume(Result.failure(exception))
                 }
         }
+
+    override suspend fun fashionize(fashionlyData: FashionlyData): Result<FashionlyResult> {
+        return when (val response = fashionlyApi.fashionize(fashionlyData.toFashionlyRequest())) {
+            is NetworkResponse.Success -> {
+                try {
+                    Result.success(response.body.toFashionlyResult())
+                } catch (e: Exception) {
+                    Result.failure(Exception("ApiError $response"))
+                }
+            }
+            is NetworkResponse.ApiError -> {
+                Result.failure(Exception("ApiError $response"))
+            }
+            is NetworkResponse.NetworkError -> {
+                Result.failure(Exception("NetworkError ${response.error}"))
+            }
+            is NetworkResponse.UnknownError -> {
+                Result.failure(Exception("UnknownError ${response.error}"))
+            }
+        }
+    }
 }

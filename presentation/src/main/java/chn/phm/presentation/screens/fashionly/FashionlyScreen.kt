@@ -36,8 +36,10 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -54,6 +56,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import chn.phm.domain.model.fashionly.FashionlyData
 import chn.phm.presentation.R
 import chn.phm.presentation.utils.permission.PermissionHandlerHost
 import chn.phm.presentation.utils.permission.PermissionHandlerHostState
@@ -73,6 +76,30 @@ fun FashionlyScreen(
     snackbarHostState: SnackbarHostState
 ) {
     val viewModel: FashionlyViewModel = hiltViewModel()
+    val uploadedImages by viewModel.uploadedImages.observeAsState()
+
+    LaunchedEffect(uploadedImages) {
+        uploadedImages?.let {
+            viewModel.fashionize(
+                FashionlyData(
+                    key = "sIuXvK5HOEti1312HBQuRHiGhNNf6POciL2iFOaxzov5RE1BfWGGa53Sujqe",
+                    prompt = "A realistic photo of a model wearing a beautiful white top.",
+                    negativePrompt = "Low quality, unrealistic, bad cloth, warped cloth",
+                    modelImage = "https://www.vstar.in/media/cache/350x0/catalog/product/f/0/f09632_parent_1_1653003388.jpg",
+                    clothImage = "https://thumbs.dreamstime.com/b/plain-hollow-female-tank-top-shirt-isolated-white-background-30020169.jpg",
+                    clothType = "upper_body",
+                    height = 512,
+                    width = 384,
+                    guidanceScale = 8.0,
+                    numInferenceSteps = 20,
+                    seed = 128915590,
+                    temp = "no",
+                    webhook = null,
+                    trackId = null
+                )
+            )
+        }
+    }
 
     val scrollState = rememberScrollState()
     val modelImageUri = remember { mutableStateOf<Uri?>(null) }

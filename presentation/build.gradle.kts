@@ -71,6 +71,9 @@ dependencies {
     kapt(Libraries.dagger_hilt_compiler)
 
     implementation(project(":domain"))
+
+    implementation(Android.lifecycle_runtime_ktx)
+    implementation(Android.compose_live_data)
 }
 
 kapt {
