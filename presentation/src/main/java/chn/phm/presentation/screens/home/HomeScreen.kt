@@ -53,7 +53,6 @@ fun HomeScreen(
     ) {
         when (currentTab) {
             HomeTab.Fashionly -> FashionlyScreen(
-                navHostController,
                 snackbarHostState = snackbarHostState
             )
             HomeTab.History -> HistoryScreen(navHostController)

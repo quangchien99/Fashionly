@@ -1,74 +1,42 @@
 package chn.phm.presentation.screens.fashionly
 
-import android.Manifest
 import android.net.Uri
-import android.os.Build
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.BottomSheetDefaults
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import chn.phm.domain.model.fashionly.FashionlyData
 import chn.phm.presentation.R
-import chn.phm.presentation.utils.permission.PermissionHandlerHost
-import chn.phm.presentation.utils.permission.PermissionHandlerHostState
-import chn.phm.presentation.utils.permission.PermissionHandlerResult
-import chn.phm.presentation.utils.permission.showAppSettingsSnackbar
-import coil.compose.rememberAsyncImagePainter
-import kotlinx.coroutines.launch
-import java.util.Locale
+import chn.phm.presentation.base.components.SuggestionBottomSheet
+import chn.phm.presentation.base.components.dialog.ErrorDialog
+import chn.phm.presentation.base.components.dialog.LoadingDialog
+import chn.phm.presentation.screens.fashionly.components.ClothingTypeSelector
+import chn.phm.presentation.screens.fashionly.components.HeaderSection
+import chn.phm.presentation.screens.fashionly.components.ImageSelectionSection
 
 @Composable
 fun FashionlyScreen(
-    navHostController: NavHostController,
     modifier: Modifier = Modifier
         .fillMaxSize()
         .padding(bottom = 24.dp)
@@ -77,6 +45,22 @@ fun FashionlyScreen(
 ) {
     val viewModel: FashionlyViewModel = hiltViewModel()
     val uploadedImages by viewModel.uploadedImages.observeAsState()
+    val state = viewModel.fashionlyUiState.observeAsState()
+
+    when (val uiState = state.value) {
+        is FashionlyUiState.Loading -> {
+            LoadingDialog()
+        }
+        is FashionlyUiState.Success -> {
+            // Show success content
+            // uiState.data contains the success data
+        }
+        is FashionlyUiState.Error -> {
+            ErrorDialog(message = "Something went wrong,\n Please try again")
+        }
+        else -> {
+        }
+    }
 
     LaunchedEffect(uploadedImages) {
         uploadedImages?.let {
@@ -123,7 +107,7 @@ fun FashionlyScreen(
                 )
             }
 
-            ClothingSelector()
+            ClothingTypeSelector()
 
             Column(
                 modifier = modifier
@@ -138,6 +122,7 @@ fun FashionlyScreen(
                 )
             }
         }
+
         Image(
             painter = painterResource(id = R.drawable.ic_suggestion),
             modifier = Modifier
@@ -150,265 +135,5 @@ fun FashionlyScreen(
                 },
             contentDescription = "Suggestion"
         )
-    }
-}
-
-@Composable
-fun HeaderSection(
-    modelImage: MutableState<Uri?>,
-    clothImage: MutableState<Uri?>,
-    onMixBtnClicked: () -> Unit
-) {
-    val hint = stringResource(id = R.string.home_prompt_hint)
-    var text by remember { mutableStateOf(hint) }
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            text = stringResource(id = R.string.home_prompt),
-            color = Color.Black,
-            style = MaterialTheme.typography.bodyLarge
-        )
-
-        RoundedCornerOutlinedTextField(
-            modifier = Modifier
-                .fillMaxWidth(0.7f)
-                .height(52.dp),
-            value = text,
-            onValueChange = { text = it },
-            placeholder = hint
-        )
-
-        MixButton(modelImage = modelImage, clothImage = clothImage, onClicked = onMixBtnClicked)
-    }
-}
-
-@Composable
-fun ImageSelectionSection(
-    modelImage: MutableState<Uri?>,
-    clothImage: MutableState<Uri?>,
-    snackbarHostState: SnackbarHostState
-) {
-    val modelImagePicker = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent(),
-        onResult = { uri ->
-            modelImage.value = uri
-        }
-    )
-
-    val clothImagePicker = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent(),
-        onResult = { uri ->
-            clothImage.value = uri
-        }
-    )
-
-    val permissionHandlerHostState =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            PermissionHandlerHostState(Manifest.permission.READ_MEDIA_IMAGES)
-        } else {
-            PermissionHandlerHostState(Manifest.permission.READ_EXTERNAL_STORAGE)
-        }
-
-    PermissionHandlerHost(
-        hostState = permissionHandlerHostState,
-    )
-
-    val coroutineScope = rememberCoroutineScope()
-    val context = LocalContext.current
-
-    Text(
-        text = stringResource(id = R.string.home_model_image),
-        color = Color.Black,
-        style = MaterialTheme.typography.bodyMedium,
-        modifier = Modifier.padding(vertical = 16.dp)
-    )
-
-    FashionlyImage(image = modelImage, defaultImageId = R.raw.model_image_sample) {
-        coroutineScope.launch {
-            snackbarHostState.currentSnackbarData?.dismiss()
-            when (permissionHandlerHostState.handlePermissions()) {
-                PermissionHandlerResult.DENIED -> {
-                    snackbarHostState.showAppSettingsSnackbar(
-                        message = "App permission denied",
-                        openSettingsActionLabel = "Settings",
-                        context = context
-                    )
-                }
-                PermissionHandlerResult.GRANTED -> {
-                    modelImagePicker.launch("image/*")
-                }
-                PermissionHandlerResult.DENIED_NEXT_RATIONALE -> {} // noop
-            }
-        }
-    }
-
-    Text(
-        text = stringResource(id = R.string.home_cloth_image),
-        color = Color.Black,
-        modifier = Modifier.padding(vertical = 16.dp),
-        style = MaterialTheme.typography.bodyMedium
-    )
-
-    FashionlyImage(image = clothImage, defaultImageId = R.raw.cloth_image_sampe) {
-        coroutineScope.launch {
-            snackbarHostState.currentSnackbarData?.dismiss()
-            when (permissionHandlerHostState.handlePermissions()) {
-                PermissionHandlerResult.DENIED -> {
-                    snackbarHostState.showAppSettingsSnackbar(
-                        message = "App permission denied",
-                        openSettingsActionLabel = "Settings",
-                        context = context
-                    )
-                }
-                PermissionHandlerResult.GRANTED -> {
-                    clothImagePicker.launch("image/*")
-                }
-                PermissionHandlerResult.DENIED_NEXT_RATIONALE -> {} // noop
-            }
-        }
-    }
-
-    Spacer(modifier = Modifier.height(16.dp))
-}
-
-@Composable
-fun MixButton(
-    modelImage: MutableState<Uri?>,
-    clothImage: MutableState<Uri?>,
-    onClicked: () -> Unit
-) {
-    Button(
-        onClick = { onClicked() },
-        enabled = modelImage.value != null && clothImage.value != null,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color.Blue,
-            disabledContainerColor = Color.LightGray
-        )
-    ) {
-        Text(
-            stringResource(id = R.string.home_mix),
-            color = Color.White,
-            style = MaterialTheme.typography.bodyLarge
-        )
-    }
-}
-
-@Composable
-fun FashionlyImage(image: MutableState<Uri?>, defaultImageId: Int, onImageClick: () -> Unit) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth(0.7f)
-            .aspectRatio(9f / 16f)
-            .clip(RoundedCornerShape(12.dp))
-            .background(if (image.value == null) Color.LightGray else Color.Transparent)
-            .clickable(onClick = onImageClick),
-        contentAlignment = Alignment.Center
-    ) {
-        Image(
-            painter = if (image.value != null) {
-                rememberAsyncImagePainter(model = image.value)
-            } else {
-                painterResource(id = defaultImageId)
-            },
-            contentScale = ContentScale.Crop,
-            contentDescription = stringResource(id = R.string.home_content_desc_select_image),
-            modifier = Modifier.fillMaxSize()
-        )
-    }
-}
-
-@Composable
-fun RoundedCornerOutlinedTextField(
-    modifier: Modifier,
-    value: String,
-    onValueChange: (String) -> Unit,
-    placeholder: String = ""
-) {
-    OutlinedTextField(
-        modifier = modifier,
-        value = value,
-        onValueChange = onValueChange,
-        placeholder = {
-            Text(
-                placeholder,
-                style = MaterialTheme.typography.bodyLarge,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-        },
-        shape = RoundedCornerShape(10.dp),
-        singleLine = true,
-        textStyle = MaterialTheme.typography.bodyLarge,
-        colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = Color.Gray,
-            unfocusedBorderColor = Color.Gray,
-            focusedTextColor = Color.Black,
-            unfocusedTextColor = Color.Black
-        ),
-        maxLines = 1
-    )
-}
-
-@Composable
-fun ClothingSelector() {
-    var selectedOption by remember { mutableStateOf<ClothType?>(null) }
-    val scrollState = rememberScrollState()
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-            .horizontalScroll(scrollState),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        ClothType.values().forEach { option ->
-            OutlinedButton(
-                onClick = { selectedOption = option },
-                colors = ButtonDefaults.outlinedButtonColors(
-                    containerColor = if (option == selectedOption) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
-                    contentColor = if (option == selectedOption) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
-                )
-            ) {
-                Text(
-                    text = option.name.replace('_', ' ').lowercase()
-                        .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() },
-                    maxLines = 1,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SuggestionBottomSheet(onDismiss: () -> Unit) {
-    val modalBottomSheetState = rememberModalBottomSheetState()
-
-    ModalBottomSheet(
-        onDismissRequest = { onDismiss() },
-        sheetState = modalBottomSheetState,
-        dragHandle = { BottomSheetDefaults.DragHandle() },
-    ) {
-        Text(
-            stringResource(id = R.string.home_note_content),
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(32.dp)
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(
-            onClick = { onDismiss() },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 40.dp, vertical = 20.dp)
-        ) {
-            Text("Confirm")
-        }
     }
 }

@@ -22,19 +22,21 @@ class FashionlyViewModel @Inject constructor(
     private val _uploadedImages: MutableLiveData<List<String>> = MutableLiveData()
     val uploadedImages: LiveData<List<String>> = _uploadedImages
 
+    private val _fashionlyUiState: MutableLiveData<FashionlyUiState> = MutableLiveData()
+    val fashionlyUiState: LiveData<FashionlyUiState> = _fashionlyUiState
+
     fun uploadImages(uris: List<Uri>) {
         viewModelScope.launch {
-            Log.d("Chien", "uploading Images")
+            _fashionlyUiState.value = FashionlyUiState.Loading
             val result = uploadImagesUseCase.execute(uris)
             if (result.isSuccess) {
                 result.getOrNull()?.let { urls ->
-                    urls.forEach { url ->
-                        Log.d("Chien", "uploadImages successfully: $url")
-                    }
                     _uploadedImages.value = result.getOrNull()
                 }
             } else {
-                Log.d("Chien", "uploadImages failed: ${result.exceptionOrNull()}")
+                result.exceptionOrNull()?.let { exception ->
+                    _fashionlyUiState.value = FashionlyUiState.Error(exception)
+                }
             }
         }
     }
@@ -45,10 +47,21 @@ class FashionlyViewModel @Inject constructor(
             if (result.isSuccess) {
                 result.getOrNull()?.let { fashionlyResult ->
                     Log.d("Chien", "fashionize successfully: $fashionlyResult")
+                    _fashionlyUiState.value =
+                        FashionlyUiState.Success(fashionlyResult.output.first())
                 }
             } else {
                 Log.d("Chien", "fashionize failed: ${result.exceptionOrNull()}")
+                result.exceptionOrNull()?.let { exception ->
+                    _fashionlyUiState.value = FashionlyUiState.Error(exception)
+                }
             }
         }
     }
+}
+
+sealed interface FashionlyUiState {
+    data class Success(val data: Any? = null) : FashionlyUiState
+    data class Error(val error: Throwable) : FashionlyUiState
+    object Loading : FashionlyUiState
 }
