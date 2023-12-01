@@ -55,7 +55,9 @@ fun HomeScreen(
             HomeTab.Fashionly -> FashionlyScreen(
                 snackbarHostState = snackbarHostState
             )
-            HomeTab.History -> HistoryScreen(navHostController)
+            HomeTab.History -> HistoryScreen(onNavigateToFashionly = {
+                currentTab = HomeTab.Fashionly
+            })
             HomeTab.Setting -> SettingScreen(navHostController)
         }
     }

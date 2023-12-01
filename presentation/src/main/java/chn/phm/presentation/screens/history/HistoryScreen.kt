@@ -1,14 +1,15 @@
 package chn.phm.presentation.screens.history
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
+import chn.phm.presentation.screens.history.components.NoHistory
 
 @Composable
 fun HistoryScreen(
-    navHostController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onNavigateToFashionly: () -> Unit
 ) {
-    Text(text = "History")
+    NoHistory {
+        onNavigateToFashionly.invoke()
+    }
 }

@@ -28,4 +28,9 @@
     <string name="home_screen_fashionly_name">Fashionly</string>
     <string name="home_screen_history_name">History</string>
     <string name="home_screen_setting_name">Setting</string>
+
+    <!--    History-->
+    <string name="home_screen_no_history_found">No History Found</string>
+    <string name="home_screen_no_history_message">Tap the button below to do some magics.</string>
+    <string name="home_screen_no_history_button">Mix Now</string>
 </resources>
