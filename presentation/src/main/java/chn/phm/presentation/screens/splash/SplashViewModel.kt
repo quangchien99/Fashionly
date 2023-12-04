@@ -26,12 +26,15 @@ class SplashViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             val isFetchRemoteConfigSuccess = fetchAndActivateConfigUseCase.execute()
+            Log.e("Chien", "fetchAndActivateConfigUseCase= $isFetchRemoteConfigSuccess")
             if (isFetchRemoteConfigSuccess) {
-                val githubAccessToken =
-                    getConfigValueUseCase.execute("fashionly_github_access_token")
-                Log.e("Chien", "githubAccessToken= $githubAccessToken")
+                val stableDiffusionApiKey =
+                    getConfigValueUseCase.execute("stable_diffusion_api_key")
+                Log.e("Chien", "stable_diffusion_api_key= $stableDiffusionApiKey")
             } else {
-                Log.e("Chien", "isFetchRemoteConfigSuccess= $isFetchRemoteConfigSuccess")
+                val stableDiffusionApiKey =
+                    getConfigValueUseCase.execute("stable_diffusion_api_key")
+                Log.e("Chien", "stable_diffusion_api_key= $stableDiffusionApiKey")
             }
             getSettingUseCase.execute().collect { settings ->
                 _settingData.emit(settings)
