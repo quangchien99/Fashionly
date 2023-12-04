@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import chn.phm.domain.model.fashionly.FashionlyData
 import chn.phm.domain.usecase.fashionly.FashionizeUseCase
 import chn.phm.domain.usecase.fashionly.UploadImagesUseCase
+import chn.phm.domain.usecase.remoteconfig.GetConfigValueUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,7 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class FashionlyViewModel @Inject constructor(
     private val uploadImagesUseCase: UploadImagesUseCase,
-    private val fashionizeUseCase: FashionizeUseCase
+    private val fashionizeUseCase: FashionizeUseCase,
+    private val getConfigValueUseCase: GetConfigValueUseCase
 ) : ViewModel() {
 
     private val _uploadedImages: MutableLiveData<List<String>> = MutableLiveData()
@@ -24,6 +26,9 @@ class FashionlyViewModel @Inject constructor(
 
     private val _fashionlyUiState: MutableLiveData<FashionlyUiState> = MutableLiveData()
     val fashionlyUiState: LiveData<FashionlyUiState> = _fashionlyUiState
+
+    private val _stableDiffusionApiKey: MutableLiveData<String> = MutableLiveData()
+    val stableDiffusionApiKey: LiveData<String> = _stableDiffusionApiKey
 
     fun uploadImages(uris: List<Uri>) {
         viewModelScope.launch {
@@ -42,20 +47,30 @@ class FashionlyViewModel @Inject constructor(
     }
 
     fun fashionize(fashionlyData: FashionlyData) {
+        Log.d("Chien","fashionize: fashionlyData= $fashionlyData")
+        _fashionlyUiState.value = FashionlyUiState.Success("")
+
+//        viewModelScope.launch {
+//            val result = fashionizeUseCase.execute(fashionlyData)
+//            if (result.isSuccess) {
+//                result.getOrNull()?.let { fashionlyResult ->
+//                    Log.d("Chien", "fashionize successfully: $fashionlyResult")
+//                    _fashionlyUiState.value =
+//                        FashionlyUiState.Success(fashionlyResult.output.first())
+//                }
+//            } else {
+//                Log.d("Chien", "fashionize failed: ${result.exceptionOrNull()}")
+//                result.exceptionOrNull()?.let { exception ->
+//                    _fashionlyUiState.value = FashionlyUiState.Error(exception)
+//                }
+//            }
+//        }
+    }
+
+    fun getStableDiffusionApiKey() {
         viewModelScope.launch {
-            val result = fashionizeUseCase.execute(fashionlyData)
-            if (result.isSuccess) {
-                result.getOrNull()?.let { fashionlyResult ->
-                    Log.d("Chien", "fashionize successfully: $fashionlyResult")
-                    _fashionlyUiState.value =
-                        FashionlyUiState.Success(fashionlyResult.output.first())
-                }
-            } else {
-                Log.d("Chien", "fashionize failed: ${result.exceptionOrNull()}")
-                result.exceptionOrNull()?.let { exception ->
-                    _fashionlyUiState.value = FashionlyUiState.Error(exception)
-                }
-            }
+            val apiKey = getConfigValueUseCase.execute("stable_diffusion_api_key")
+            _stableDiffusionApiKey.value = apiKey
         }
     }
 }

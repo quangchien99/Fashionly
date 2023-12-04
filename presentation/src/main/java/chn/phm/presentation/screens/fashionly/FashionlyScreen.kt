@@ -45,7 +45,11 @@ fun FashionlyScreen(
 ) {
     val viewModel: FashionlyViewModel = hiltViewModel()
     val uploadedImages by viewModel.uploadedImages.observeAsState()
+    val apiKey by viewModel.stableDiffusionApiKey.observeAsState()
     val state = viewModel.fashionlyUiState.observeAsState()
+
+    var clothType by remember { mutableStateOf<String?>(null) }
+    var prompt by remember { mutableStateOf<String?>(null) }
 
     when (val uiState = state.value) {
         is FashionlyUiState.Loading -> {
@@ -64,14 +68,25 @@ fun FashionlyScreen(
 
     LaunchedEffect(uploadedImages) {
         uploadedImages?.let {
+            viewModel.getStableDiffusionApiKey()
+        }
+    }
+
+    LaunchedEffect(apiKey) {
+        apiKey?.let { key ->
             viewModel.fashionize(
                 FashionlyData(
-                    key = "sIuXvK5HOEti1312HBQuRHiGhNNf6POciL2iFOaxzov5RE1BfWGGa53Sujqe",
-                    prompt = "A realistic photo of a model wearing a beautiful white top.",
+                    key = key,
+                    prompt = prompt
+                        ?: "A realistic photo of a model wearing a beautiful white top.",
                     negativePrompt = "Low quality, unrealistic, bad cloth, warped cloth",
-                    modelImage = "https://www.vstar.in/media/cache/350x0/catalog/product/f/0/f09632_parent_1_1653003388.jpg",
-                    clothImage = "https://thumbs.dreamstime.com/b/plain-hollow-female-tank-top-shirt-isolated-white-background-30020169.jpg",
-                    clothType = "upper_body",
+//                    modelImage = "https://www.vstar.in/media/cache/350x0/catalog/product/f/0/f09632_parent_1_1653003388.jpg",
+                    modelImage = uploadedImages?.first()
+                        ?: "https://www.vstar.in/media/cache/350x0/catalog/product/f/0/f09632_parent_1_1653003388.jpg",
+//                    clothImage = "https://thumbs.dreamstime.com/b/plain-hollow-female-tank-top-shirt-isolated-white-background-30020169.jpg",
+                    clothImage = uploadedImages?.get(1)
+                        ?: "https://thumbs.dreamstime.com/b/plain-hollow-female-tank-top-shirt-isolated-white-background-30020169.jpg",
+                    clothType = clothType ?: "upper_body",
                     height = 512,
                     width = 384,
                     guidanceScale = 8.0,
@@ -101,13 +116,22 @@ fun FashionlyScreen(
             modifier = modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            HeaderSection(modelImageUri, clothImageUri) {
-                viewModel.uploadImages(
-                    listOf(modelImageUri.value!!, clothImageUri.value!!)
-                )
-            }
+            HeaderSection(
+                modelImageUri,
+                clothImageUri,
+                onMixBtnClicked = {
+                    viewModel.uploadImages(
+                        listOf(modelImageUri.value!!, clothImageUri.value!!)
+                    )
+                },
+                onPromptValueChange = {
+                    prompt = it
+                }
+            )
 
-            ClothingTypeSelector()
+            ClothingTypeSelector() {
+                clothType = it
+            }
 
             Column(
                 modifier = modifier

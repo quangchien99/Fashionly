@@ -36,7 +36,8 @@ import java.util.Locale
 fun HeaderSection(
     modelImage: MutableState<Uri?>,
     clothImage: MutableState<Uri?>,
-    onMixBtnClicked: () -> Unit
+    onMixBtnClicked: () -> Unit,
+    onPromptValueChange: (String) -> Unit
 ) {
     val hint = stringResource(id = R.string.home_prompt_hint)
     var text by remember { mutableStateOf(hint) }
@@ -59,7 +60,10 @@ fun HeaderSection(
                 .fillMaxWidth(0.7f)
                 .height(52.dp),
             value = text,
-            onValueChange = { text = it },
+            onValueChange = {
+                text = it
+                onPromptValueChange.invoke(it)
+            },
             placeholder = hint
         )
 
@@ -122,7 +126,7 @@ fun MixButton(
 }
 
 @Composable
-fun ClothingTypeSelector() {
+fun ClothingTypeSelector(obClothTypeSelected: (String) -> Unit) {
     var selectedOption by remember { mutableStateOf<ClothType?>(null) }
     val scrollState = rememberScrollState()
     Row(
@@ -135,7 +139,12 @@ fun ClothingTypeSelector() {
     ) {
         ClothType.values().forEach { option ->
             OutlinedButton(
-                onClick = { selectedOption = option },
+                onClick = {
+                    selectedOption = option
+                    obClothTypeSelected.invoke(
+                        selectedOption?.value ?: ""
+                    )
+                },
                 colors = ButtonDefaults.outlinedButtonColors(
                     containerColor = if (option == selectedOption) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
                     contentColor = if (option == selectedOption) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
