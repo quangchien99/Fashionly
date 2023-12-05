@@ -26,7 +26,6 @@ class SplashViewModel @Inject constructor(
             val isFetchRemoteConfigSuccess = fetchAndActivateConfigUseCase.execute()
             Log.e("Chien", "fetchAndActivateConfigUseCase= $isFetchRemoteConfigSuccess")
 
-
             getSettingUseCase.execute().collect { settings ->
                 _settingData.emit(settings)
             }
