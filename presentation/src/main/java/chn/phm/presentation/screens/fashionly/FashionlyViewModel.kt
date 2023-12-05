@@ -47,7 +47,7 @@ class FashionlyViewModel @Inject constructor(
     }
 
     fun fashionize(fashionlyData: FashionlyData) {
-        Log.d("Chien","fashionize: fashionlyData= $fashionlyData")
+        Log.d("Chien", "fashionize: fashionlyData= $fashionlyData")
         _fashionlyUiState.value = FashionlyUiState.Success("")
 
 //        viewModelScope.launch {
