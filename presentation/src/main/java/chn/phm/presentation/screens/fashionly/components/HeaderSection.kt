@@ -1,6 +1,7 @@
 package chn.phm.presentation.screens.fashionly.components
 
 import android.net.Uri
+import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -60,7 +61,8 @@ fun HeaderSection(
         RoundedCornerOutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth(0.7f)
-                .height(52.dp),
+                .height(52.dp)
+                .background(Color.White),
             value = text,
             onValueChange = {
                 text = it

@@ -13,3 +13,5 @@ val Pink40 = Color(0xFF7D5260)
 val RedLight = Color(0xFFFF4F5B)
 val Grey300 = Color(0xFFe0e0e0)
 val Grey900 = Color(0xFF212121)
+
+val BackgroundLight = Color(0xFFF5F5F5)

@@ -22,7 +22,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -31,6 +30,7 @@ import chn.phm.presentation.R
 import chn.phm.presentation.base.components.SuggestionBottomSheet
 import chn.phm.presentation.base.components.dialog.ErrorDialog
 import chn.phm.presentation.base.components.dialog.LoadingDialog
+import chn.phm.presentation.base.theme.BackgroundLight
 import chn.phm.presentation.screens.fashionly.components.ClothingTypeSelector
 import chn.phm.presentation.screens.fashionly.components.HeaderSection
 import chn.phm.presentation.screens.fashionly.components.ImageSelectionSection
@@ -40,7 +40,7 @@ fun FashionlyScreen(
     modifier: Modifier = Modifier
         .fillMaxSize()
         .padding(bottom = 24.dp)
-        .background(color = Color.White),
+        .background(color = BackgroundLight),
     snackbarHostState: SnackbarHostState
 ) {
     val viewModel: FashionlyViewModel = hiltViewModel()

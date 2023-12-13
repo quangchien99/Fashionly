@@ -1,6 +1,7 @@
 package chn.phm.presentation.screens.history.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -24,14 +25,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import chn.phm.presentation.R
 import chn.phm.presentation.base.components.GradientButton
+import chn.phm.presentation.base.theme.BackgroundLight
 
 @Composable
 fun NoHistory(onClicked: () -> Unit) {
 
-    Surface(modifier = Modifier.fillMaxSize()) {
-
+    Surface(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = BackgroundLight),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
