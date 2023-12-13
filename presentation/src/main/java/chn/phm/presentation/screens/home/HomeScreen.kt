@@ -2,9 +2,6 @@ package chn.phm.presentation.screens.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -77,7 +74,7 @@ fun BottomNavigationBar(
             label = { Text(stringResource(id = R.string.home_screen_fashionly_name)) },
             icon = {
                 Icon(
-                    Icons.Default.Home,
+                    painterResource(id = R.drawable.ic_home),
                     contentDescription = stringResource(id = R.string.home_screen_fashionly_name)
                 )
             },
@@ -100,7 +97,7 @@ fun BottomNavigationBar(
             label = { Text(stringResource(id = R.string.home_screen_setting_name)) },
             icon = {
                 Icon(
-                    Icons.Default.Settings,
+                    painterResource(id = R.drawable.ic_settings),
                     contentDescription = stringResource(id = R.string.home_screen_setting_name)
                 )
             },
