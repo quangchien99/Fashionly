@@ -15,6 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -29,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import chn.phm.presentation.R
+import chn.phm.presentation.base.theme.Grey900
 import chn.phm.presentation.screens.fashionly.ClothType
 import java.util.Locale
 
@@ -45,7 +47,7 @@ fun HeaderSection(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 16.dp),
+            .padding(horizontal = 16.dp, vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -127,7 +129,7 @@ fun MixButton(
 
 @Composable
 fun ClothingTypeSelector(obClothTypeSelected: (String) -> Unit) {
-    var selectedOption by remember { mutableStateOf<ClothType?>(null) }
+    var selectedOption by remember { mutableStateOf<ClothType?>(ClothType.UPPER_BODY) }
     val scrollState = rememberScrollState()
     Row(
         modifier = Modifier
@@ -139,6 +141,7 @@ fun ClothingTypeSelector(obClothTypeSelected: (String) -> Unit) {
     ) {
         ClothType.values().forEach { option ->
             OutlinedButton(
+                modifier = Modifier.padding(end = 12.dp),
                 onClick = {
                     selectedOption = option
                     obClothTypeSelected.invoke(
@@ -146,9 +149,10 @@ fun ClothingTypeSelector(obClothTypeSelected: (String) -> Unit) {
                     )
                 },
                 colors = ButtonDefaults.outlinedButtonColors(
-                    containerColor = if (option == selectedOption) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
+                    containerColor = if (option == selectedOption) Grey900 else Color.White,
                     contentColor = if (option == selectedOption) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
-                )
+                ),
+                shape = ShapeDefaults.Small
             ) {
                 Text(
                     text = option.name.replace('_', ' ').lowercase()

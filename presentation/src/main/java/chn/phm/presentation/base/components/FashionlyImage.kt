@@ -35,7 +35,7 @@ fun FashionlyImage(
 ) {
     Box(
         modifier = Modifier
-            .fillMaxWidth(0.7f)
+            .fillMaxWidth(0.9f)
             .aspectRatio(9f / 16f)
             .clip(RoundedCornerShape(12.dp))
             .background(if (image.value == null) Color.LightGray else Color.Transparent)
