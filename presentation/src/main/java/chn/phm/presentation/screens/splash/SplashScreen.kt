@@ -32,7 +32,7 @@ fun SplashScreen(
             if (setting.isFirstOpen) {
                 navHostController.navigate(Screen.OnBoardingScreen.route)
             } else {
-                navHostController.navigate(Screen.HomeScreen.route)
+                navHostController.navigate(Screen.FashionlyScreen.route)
             }
         }
     }

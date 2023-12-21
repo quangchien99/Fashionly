@@ -20,10 +20,8 @@ import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,7 +41,7 @@ fun HeaderSection(
     onPromptValueChange: (String) -> Unit
 ) {
     val hint = stringResource(id = R.string.home_prompt_hint)
-    var text by remember { mutableStateOf(hint) }
+    val text = rememberSaveable { mutableStateOf(hint) }
 
     Row(
         modifier = Modifier
@@ -63,9 +61,9 @@ fun HeaderSection(
                 .fillMaxWidth(0.7f)
                 .height(52.dp)
                 .background(Color.White),
-            value = text,
+            value = text.value,
             onValueChange = {
-                text = it
+                text.value = it
                 onPromptValueChange.invoke(it)
             },
             placeholder = hint
@@ -130,8 +128,8 @@ fun MixButton(
 }
 
 @Composable
-fun ClothingTypeSelector(obClothTypeSelected: (String) -> Unit) {
-    var selectedOption by remember { mutableStateOf<ClothType?>(ClothType.UPPER_BODY) }
+fun ClothingTypeSelector(obClothTypeSelected: (ClothType) -> Unit) {
+    val selectedOption = rememberSaveable { mutableStateOf<ClothType?>(ClothType.UPPER_BODY) }
     val scrollState = rememberScrollState()
     Row(
         modifier = Modifier
@@ -145,14 +143,14 @@ fun ClothingTypeSelector(obClothTypeSelected: (String) -> Unit) {
             OutlinedButton(
                 modifier = Modifier.padding(end = 12.dp),
                 onClick = {
-                    selectedOption = option
+                    selectedOption.value = option
                     obClothTypeSelected.invoke(
-                        selectedOption?.value ?: ""
+                        selectedOption.value!!
                     )
                 },
                 colors = ButtonDefaults.outlinedButtonColors(
-                    containerColor = if (option == selectedOption) Grey900 else Color.White,
-                    contentColor = if (option == selectedOption) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
+                    containerColor = if (option == selectedOption.value) Grey900 else Color.White,
+                    contentColor = if (option == selectedOption.value) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
                 ),
                 shape = ShapeDefaults.Small
             ) {

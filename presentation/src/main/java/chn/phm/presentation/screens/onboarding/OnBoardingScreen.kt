@@ -133,7 +133,7 @@ fun OnBoardingScreen(
                 currentPager = pagerState.currentPage,
                 onFinished = {
                     viewModel.markFirstTimeOpened()
-                    navHostController.navigate(Screen.HomeScreen.route)
+                    navHostController.navigate(Screen.FashionlyScreen.route)
                 },
                 onNext = {
                     navigateNext = true

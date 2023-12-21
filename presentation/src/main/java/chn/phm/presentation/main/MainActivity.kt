@@ -8,7 +8,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import chn.phm.presentation.base.navigation.FashionlyNavHost
 import chn.phm.presentation.base.theme.FashionlyTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,7 +23,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    FashionlyNavHost(navController = navController)
+                    MainScreen(navController = navController)
                 }
             }
         }

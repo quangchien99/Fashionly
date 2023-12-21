@@ -19,13 +19,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import chn.phm.domain.model.fashionly.FashionlyData
 import chn.phm.presentation.R
 import chn.phm.presentation.base.components.SuggestionBottomSheet
 import chn.phm.presentation.base.components.dialog.ErrorDialog
@@ -41,15 +40,12 @@ fun FashionlyScreen(
         .fillMaxSize()
         .padding(bottom = 24.dp)
         .background(color = BackgroundLight),
-    snackbarHostState: SnackbarHostState
+    snackBarHostState: SnackbarHostState,
+    viewModel: FashionlyViewModel
 ) {
-    val viewModel: FashionlyViewModel = hiltViewModel()
-    val uploadedImages by viewModel.uploadedImages.observeAsState()
-    val apiKey by viewModel.stableDiffusionApiKey.observeAsState()
+    val uploadImagesStatus by viewModel.uploadImagesStatus.observeAsState()
+    val getAPIKeyStatus by viewModel.getAPIKeyStatus.observeAsState()
     val state = viewModel.fashionlyUiState.observeAsState()
-
-    var clothType by remember { mutableStateOf<String?>(null) }
-    var prompt by remember { mutableStateOf<String?>(null) }
 
     when (val uiState = state.value) {
         is FashionlyUiState.Loading -> {
@@ -66,43 +62,21 @@ fun FashionlyScreen(
         }
     }
 
-    LaunchedEffect(uploadedImages) {
-        uploadedImages?.let {
+    LaunchedEffect(uploadImagesStatus) {
+        if (uploadImagesStatus == true) {
             viewModel.getStableDiffusionApiKey()
         }
     }
 
-    LaunchedEffect(apiKey) {
-        apiKey?.let { key ->
-            viewModel.fashionize(
-                FashionlyData(
-                    key = key,
-                    prompt = prompt
-                        ?: "A realistic photo of a model wearing a beautiful white top.",
-                    negativePrompt = "Low quality, unrealistic, bad cloth, warped cloth",
-//                    modelImage = "https://www.vstar.in/media/cache/350x0/catalog/product/f/0/f09632_parent_1_1653003388.jpg",
-                    modelImage = uploadedImages?.first()
-                        ?: "https://www.vstar.in/media/cache/350x0/catalog/product/f/0/f09632_parent_1_1653003388.jpg",
-//                    clothImage = "https://thumbs.dreamstime.com/b/plain-hollow-female-tank-top-shirt-isolated-white-background-30020169.jpg",
-                    clothImage = uploadedImages?.get(1)
-                        ?: "https://thumbs.dreamstime.com/b/plain-hollow-female-tank-top-shirt-isolated-white-background-30020169.jpg",
-                    clothType = clothType ?: "upper_body",
-                    height = 512,
-                    width = 384,
-                    guidanceScale = 8.0,
-                    numInferenceSteps = 20,
-                    seed = 128915590,
-                    temp = "no",
-                    webhook = null,
-                    trackId = null
-                )
-            )
+    LaunchedEffect(getAPIKeyStatus) {
+        if (getAPIKeyStatus == true) {
+            viewModel.fashionize()
         }
     }
 
     val scrollState = rememberScrollState()
-    val modelImageUri = remember { mutableStateOf<Uri?>(null) }
-    val clothImageUri = remember { mutableStateOf<Uri?>(null) }
+    val modelImageUri = rememberSaveable { mutableStateOf<Uri?>(null) }
+    val clothImageUri = rememberSaveable { mutableStateOf<Uri?>(null) }
 
     var showSuggestionBottomSheet by remember { mutableStateOf(false) }
     if (showSuggestionBottomSheet) {
@@ -125,12 +99,12 @@ fun FashionlyScreen(
                     )
                 },
                 onPromptValueChange = {
-                    prompt = it
+                    viewModel.setPrompt(it)
                 }
             )
 
             ClothingTypeSelector() {
-                clothType = it
+                viewModel.setClothType(it)
             }
 
             Column(
@@ -142,7 +116,7 @@ fun FashionlyScreen(
                 ImageSelectionSection(
                     modelImage = modelImageUri,
                     clothImage = clothImageUri,
-                    snackbarHostState = snackbarHostState
+                    snackBarHostState = snackBarHostState
                 )
             }
         }

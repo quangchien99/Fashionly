@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 fun ImageSelectionSection(
     modelImage: MutableState<Uri?>,
     clothImage: MutableState<Uri?>,
-    snackbarHostState: SnackbarHostState
+    snackBarHostState: SnackbarHostState
 ) {
     val modelImagePicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
@@ -66,10 +66,10 @@ fun ImageSelectionSection(
         defaultImageId = R.raw.model_image_sample
     ) {
         coroutineScope.launch {
-            snackbarHostState.currentSnackbarData?.dismiss()
+            snackBarHostState.currentSnackbarData?.dismiss()
             when (permissionHandlerHostState.handlePermissions()) {
                 PermissionHandlerResult.DENIED -> {
-                    snackbarHostState.showAppSettingsSnackbar(
+                    snackBarHostState.showAppSettingsSnackbar(
                         message = message,
                         openSettingsActionLabel = openSettingsActionLabel,
                         context = context
@@ -91,10 +91,10 @@ fun ImageSelectionSection(
         defaultImageId = R.raw.cloth_image_sampe
     ) {
         coroutineScope.launch {
-            snackbarHostState.currentSnackbarData?.dismiss()
+            snackBarHostState.currentSnackbarData?.dismiss()
             when (permissionHandlerHostState.handlePermissions()) {
                 PermissionHandlerResult.DENIED -> {
-                    snackbarHostState.showAppSettingsSnackbar(
+                    snackBarHostState.showAppSettingsSnackbar(
                         message = message,
                         openSettingsActionLabel = openSettingsActionLabel,
                         context = context
