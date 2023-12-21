@@ -15,6 +15,9 @@ val jostFontFamily = FontFamily(
     Font(R.font.jost_semibold, FontWeight.SemiBold),
     Font(R.font.jost_bold, FontWeight.Bold),
 )
+val salteryFontFamily = FontFamily(
+    Font(R.font.saltery_regular_rough, FontWeight.Normal)
+)
 
 // Set of Material typography styles to start with
 val Typography = Typography(
@@ -33,7 +36,7 @@ val Typography = Typography(
         letterSpacing = 1.sp
     ),
     displaySmall = TextStyle(
-        fontFamily = jostFontFamily,
+        fontFamily = salteryFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 36.sp,
         lineHeight = 44.sp,

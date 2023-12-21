@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,7 +29,6 @@ fun BottomNavigationBar(
 
         NavigationBarItem(
             selected = currentRoute == Screen.FashionlyScreen.route,
-            label = { Text(stringResource(id = R.string.home_screen_fashionly_name)) },
             icon = {
                 Icon(
                     painterResource(id = R.drawable.ic_home),
@@ -52,7 +50,6 @@ fun BottomNavigationBar(
 
         NavigationBarItem(
             selected = currentRoute == Screen.HistoryScreen.route,
-            label = { Text(stringResource(id = R.string.home_screen_history_name)) },
             icon = {
                 Icon(
                     painterResource(id = R.drawable.ic_history),
@@ -75,7 +72,6 @@ fun BottomNavigationBar(
         )
         NavigationBarItem(
             selected = currentRoute == Screen.SettingsScreen.route,
-            label = { Text(stringResource(id = R.string.home_screen_setting_name)) },
             icon = {
                 Icon(
                     painterResource(id = R.drawable.ic_settings),

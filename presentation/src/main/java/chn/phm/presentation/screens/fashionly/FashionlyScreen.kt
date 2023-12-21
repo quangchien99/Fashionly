@@ -38,7 +38,6 @@ import chn.phm.presentation.screens.fashionly.components.ImageSelectionSection
 fun FashionlyScreen(
     modifier: Modifier = Modifier
         .fillMaxSize()
-        .padding(bottom = 24.dp)
         .background(color = BackgroundLight),
     snackBarHostState: SnackbarHostState,
     viewModel: FashionlyViewModel

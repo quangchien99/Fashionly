@@ -1,7 +1,10 @@
 package chn.phm.presentation.base.navigation
 
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.NavHostController
@@ -14,13 +17,21 @@ import chn.phm.presentation.screens.setting.SettingScreen
 import chn.phm.presentation.screens.splash.SplashScreen
 
 @Composable
-fun FashionlyNavHost(navController: NavHostController, snackBarHostState: SnackbarHostState) {
+fun FashionlyNavHost(
+    navController: NavHostController,
+    snackBarHostState: SnackbarHostState,
+    paddingValues: PaddingValues
+) {
 
     val viewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {
         "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
     }
 
-    NavHost(navController = navController, startDestination = Screen.SplashScreen.route) {
+    NavHost(
+        navController = navController,
+        startDestination = Screen.SplashScreen.route,
+        modifier = Modifier.padding(paddingValues)
+    ) {
         composable(Screen.SplashScreen.route) {
             SplashScreen(navController)
         }
