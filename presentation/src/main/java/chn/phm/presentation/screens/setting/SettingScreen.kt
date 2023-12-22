@@ -1,6 +1,8 @@
 package chn.phm.presentation.screens.setting
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,5 +14,7 @@ fun SettingScreen(
     navHostController: NavHostController,
     modifier: Modifier = Modifier.background(color = BackgroundLight)
 ) {
-    Text(text = "Setting")
+    Column(modifier = modifier.fillMaxSize()) {
+        Text(text = "Setting")
+    }
 }

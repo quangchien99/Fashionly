@@ -5,13 +5,16 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -25,6 +28,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -48,17 +52,10 @@ fun HeaderSection(
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(
-            text = stringResource(id = R.string.home_prompt),
-            color = Color.Black,
-            style = MaterialTheme.typography.bodyLarge
-        )
-
         RoundedCornerOutlinedTextField(
             modifier = Modifier
-                .fillMaxWidth(0.7f)
+                .fillMaxWidth(0.65f)
                 .height(52.dp)
                 .background(Color.White),
             value = text.value,
@@ -69,7 +66,16 @@ fun HeaderSection(
             placeholder = hint
         )
 
-        MixButton(modelImage = modelImage, clothImage = clothImage, onClicked = onMixBtnClicked)
+        Spacer(modifier = Modifier.padding(start = 8.dp))
+
+        GenerateButton(
+            modelImage = modelImage,
+            clothImage = clothImage,
+            onClicked = onMixBtnClicked,
+            modifier = Modifier
+                .fillMaxWidth()
+                .size(52.dp)
+        )
     }
 }
 
@@ -106,7 +112,8 @@ fun RoundedCornerOutlinedTextField(
 }
 
 @Composable
-fun MixButton(
+fun GenerateButton(
+    modifier: Modifier,
     modelImage: MutableState<Uri?>,
     clothImage: MutableState<Uri?>,
     onClicked: () -> Unit
@@ -117,11 +124,20 @@ fun MixButton(
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Blue,
             disabledContainerColor = Color.LightGray
-        )
+        ),
+        modifier = modifier
     ) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_magic),
+            contentDescription = "App Icon",
+            // Keep original color of the icon
+            tint = Color.Unspecified
+        )
+
         Text(
             stringResource(id = R.string.home_mix),
             color = Color.White,
+            modifier = Modifier.padding(start = 8.dp),
             style = MaterialTheme.typography.bodyLarge
         )
     }

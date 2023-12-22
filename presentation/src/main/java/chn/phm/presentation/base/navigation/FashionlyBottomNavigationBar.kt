@@ -1,6 +1,5 @@
 package chn.phm.presentation.base.navigation
 
-import android.util.Log
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -57,9 +56,7 @@ fun BottomNavigationBar(
                 )
             },
             onClick = {
-                Log.e("Chien", "Check 1 $currentRoute")
                 if (currentRoute != Screen.HistoryScreen.route) {
-                    Log.e("Chien", "Check 2")
                     navController.navigate(Screen.HistoryScreen.route) {
                         popUpTo(navController.graph.findStartDestination().id) {
                             saveState = true
