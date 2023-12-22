@@ -23,7 +23,9 @@ object ApplicationModule {
 
     @Provides
     @Singleton
-    fun gson(): Gson = GsonBuilder().create()
+    fun gson(): Gson = GsonBuilder()
+        .disableHtmlEscaping()
+        .create()
 
     @Provides
     @Singleton

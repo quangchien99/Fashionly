@@ -22,6 +22,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -44,8 +45,13 @@ fun HeaderSection(
     onMixBtnClicked: () -> Unit,
     onPromptValueChange: (String) -> Unit
 ) {
+
     val hint = stringResource(id = R.string.home_prompt_hint)
     val text = rememberSaveable { mutableStateOf(hint) }
+
+    LaunchedEffect(key1 = text) {
+        onPromptValueChange.invoke(text.value)
+    }
 
     Row(
         modifier = Modifier
