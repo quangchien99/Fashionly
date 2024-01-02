@@ -1,5 +1,7 @@
 package chn.phm.presentation.base.components.dialog
 
+import android.Manifest
+import android.os.Build
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,23 +20,47 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import chn.phm.presentation.R
+import chn.phm.presentation.utils.permission.PermissionHandlerHost
+import chn.phm.presentation.utils.permission.PermissionHandlerHostState
+import chn.phm.presentation.utils.permission.PermissionHandlerResult
+import chn.phm.presentation.utils.permission.showAppSettingsSnackbar
 import coil.compose.rememberAsyncImagePainter
+import kotlinx.coroutines.launch
 
 @Composable
 fun ResultDialog(
     imageResultUrl: String,
+    snackBarHostState: SnackbarHostState,
     onGenerateNewImage: () -> Unit,
     onSaveToDevice: () -> Unit
 ) {
+
+    val permissionHandlerHostState = PermissionHandlerHostState(
+        Manifest.permission.WRITE_EXTERNAL_STORAGE
+    )
+
+    PermissionHandlerHost(
+        hostState = permissionHandlerHostState,
+    )
+    val message = stringResource(id = R.string.common_permission_denied)
+    val openSettingsActionLabel = stringResource(id = R.string.common_settings)
+    val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
+
     val showDialog = remember { mutableStateOf(true) }
     if (showDialog.value) {
         Dialog(onDismissRequest = {
@@ -99,7 +125,25 @@ fun ResultDialog(
                             ),
                             onClick = {
                                 showDialog.value = false
-                                onSaveToDevice()
+                                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                                    coroutineScope.launch {
+                                        when (permissionHandlerHostState.handlePermissions()) {
+                                            PermissionHandlerResult.DENIED -> {
+                                                snackBarHostState.showAppSettingsSnackbar(
+                                                    message = message,
+                                                    openSettingsActionLabel = openSettingsActionLabel,
+                                                    context = context
+                                                )
+                                            }
+                                            PermissionHandlerResult.GRANTED -> {
+                                                onSaveToDevice()
+                                            }
+                                            PermissionHandlerResult.DENIED_NEXT_RATIONALE -> {} // noop
+                                        }
+                                    }
+                                } else {
+                                    onSaveToDevice()
+                                }
                             }
                         ) {
                             Text(

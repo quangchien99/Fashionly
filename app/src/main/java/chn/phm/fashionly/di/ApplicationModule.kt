@@ -1,5 +1,6 @@
 package chn.phm.fashionly.di
 
+import android.content.ContentResolver
 import android.content.Context
 import chn.phm.data.remote.network.NetworkClient
 import chn.phm.data.remote.network.NetworkRetrofit
@@ -43,5 +44,11 @@ object ApplicationModule {
     @Provides
     fun provideDeviceInfoProvider(@ApplicationContext context: Context): DeviceInfoProvider {
         return DeviceInfoProvider(context)
+    }
+
+    @Singleton
+    @Provides
+    fun provideContentResolver(@ApplicationContext context: Context): ContentResolver {
+        return context.contentResolver
     }
 }

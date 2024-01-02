@@ -1,5 +1,6 @@
 package chn.phm.fashionly.di
 
+import android.content.ContentResolver
 import android.content.Context
 import chn.phm.data.local.preference.SettingStoreManager
 import chn.phm.data.remote.FashionlyApi
@@ -40,9 +41,15 @@ object RepositoryModule {
     fun provideFashionlyRepository(
         fashionlyApi: FashionlyApi,
         storageReference: StorageReference,
-        deviceInfoProvider: DeviceInfoProvider
+        deviceInfoProvider: DeviceInfoProvider,
+        contentResolver: ContentResolver
     ): FashionlyRepository {
-        return FashionlyRepositoryImpl(fashionlyApi, storageReference, deviceInfoProvider)
+        return FashionlyRepositoryImpl(
+            fashionlyApi,
+            storageReference,
+            deviceInfoProvider,
+            contentResolver
+        )
     }
 
     @Provides

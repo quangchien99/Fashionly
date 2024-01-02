@@ -32,14 +32,18 @@ fun ImageSelectionSection(
     val modelImagePicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
         onResult = { uri ->
-            modelImage.value = uri
+            if (uri != null) {
+                modelImage.value = uri
+            }
         }
     )
 
     val clothImagePicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
         onResult = { uri ->
-            clothImage.value = uri
+            if (uri != null) {
+                clothImage.value = uri
+            }
         }
     )
 

@@ -54,11 +54,13 @@ fun FashionlyScreen(
         is FashionlyUiState.Success -> {
             ResultDialog(
                 imageResultUrl = uiState.data.toString(),
+                snackBarHostState = snackBarHostState,
                 onGenerateNewImage = {
                     viewModel.resetStatus()
                 },
                 onSaveToDevice = {
                     viewModel.resetStatus()
+                    viewModel.saveImageToStorage(uiState.data.toString())
                 }
             )
         }

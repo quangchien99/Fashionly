@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import chn.phm.domain.model.fashionly.FashionlyData
 import chn.phm.domain.usecase.fashionly.FashionizeUseCase
+import chn.phm.domain.usecase.fashionly.SaveImageUseCase
 import chn.phm.domain.usecase.fashionly.UploadImagesUseCase
 import chn.phm.domain.usecase.remoteconfig.GetConfigValueUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +19,8 @@ import javax.inject.Inject
 class FashionlyViewModel @Inject constructor(
     private val uploadImagesUseCase: UploadImagesUseCase,
     private val fashionizeUseCase: FashionizeUseCase,
-    private val getConfigValueUseCase: GetConfigValueUseCase
+    private val getConfigValueUseCase: GetConfigValueUseCase,
+    private val saveImageUseCase: SaveImageUseCase
 ) : ViewModel() {
 
     private val _uploadedImages: MutableLiveData<List<String>> = MutableLiveData(emptyList())
@@ -127,6 +129,18 @@ class FashionlyViewModel @Inject constructor(
     fun resetStatus() {
         _getAPIKeyStatus.value = false
         _uploadImagesStatus.value = false
+    }
+
+    fun saveImageToStorage(imageUrl: String) {
+        Log.d("Fashionly", "saveImageToStorage: $imageUrl")
+        viewModelScope.launch {
+            val result = saveImageUseCase.execute(imageUrl)
+            if (result.isSuccess && result.getOrNull() == true) {
+                Log.d("Fashionly", "saveImageToStorage Success")
+            } else {
+                Log.d("Fashionly", "saveImageToStorage failed")
+            }
+        }
     }
 }
 

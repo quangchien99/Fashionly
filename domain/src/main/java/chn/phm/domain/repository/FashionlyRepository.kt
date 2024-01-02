@@ -11,4 +11,6 @@ interface FashionlyRepository {
     ): Result<List<String>>
 
     suspend fun fashionize(fashionlyData: FashionlyData): Result<FashionlyResult>
+
+    suspend fun saveImageToStorage(imageUrl: String): Result<Boolean>
 }
