@@ -95,7 +95,10 @@ class FashionlyViewModel @Inject constructor(
                 } else {
                     Log.d("Chien", "fashionize failed: ${result.exceptionOrNull()}")
                     result.exceptionOrNull()?.let { exception ->
-                        _fashionlyUiState.value = FashionlyUiState.Error(exception)
+//                        _fashionlyUiState.value = FashionlyUiState.Error(exception)
+                        // testing purpose
+                        _fashionlyUiState.value =
+                            FashionlyUiState.Success("https://thumbs.dreamstime.com/b/plain-hollow-female-tank-top-shirt-isolated-white-background-30020169.jpg")
                     }
                 }
             }
@@ -107,7 +110,7 @@ class FashionlyViewModel @Inject constructor(
         viewModelScope.launch {
             val apiKey = getConfigValueUseCase.execute("stable_diffusion_api_key")
             _stableDiffusionApiKey.value = apiKey
-            if (!apiKey.isEmpty()) {
+            if (apiKey.isNotEmpty()) {
                 _getAPIKeyStatus.value = true
             }
         }
@@ -119,6 +122,11 @@ class FashionlyViewModel @Inject constructor(
 
     fun setPrompt(prompt: String) {
         _prompt.value = prompt
+    }
+
+    fun resetStatus() {
+        _getAPIKeyStatus.value = false
+        _uploadImagesStatus.value = false
     }
 }
 

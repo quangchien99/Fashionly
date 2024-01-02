@@ -29,6 +29,7 @@ import chn.phm.presentation.R
 import chn.phm.presentation.base.components.SuggestionBottomSheet
 import chn.phm.presentation.base.components.dialog.ErrorDialog
 import chn.phm.presentation.base.components.dialog.LoadingDialog
+import chn.phm.presentation.base.components.dialog.ResultDialog
 import chn.phm.presentation.base.theme.BackgroundLight
 import chn.phm.presentation.screens.fashionly.components.ClothingTypeSelector
 import chn.phm.presentation.screens.fashionly.components.HeaderSection
@@ -51,11 +52,19 @@ fun FashionlyScreen(
             LoadingDialog()
         }
         is FashionlyUiState.Success -> {
-            // Show success content
-            // uiState.data contains the success data
+            ResultDialog(
+                imageResultUrl = uiState.data.toString(),
+                onGenerateNewImage = {
+                    viewModel.resetStatus()
+                },
+                onSaveToDevice = {
+                    viewModel.resetStatus()
+                }
+            )
         }
         is FashionlyUiState.Error -> {
             ErrorDialog(message = "Something went wrong,\n Please try again")
+            viewModel.resetStatus()
         }
         else -> {
         }
