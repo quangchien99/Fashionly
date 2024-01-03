@@ -136,6 +136,7 @@ class FashionlyViewModel @Inject constructor(
     fun resetStatus() {
         _getAPIKeyStatus.value = false
         _uploadImagesStatus.value = false
+        _fashionlyUiState.value = FashionlyUiState.IDLE
     }
 
     fun saveImageToStorage(imageUrl: String) {
@@ -174,4 +175,5 @@ sealed interface FashionlyUiState {
     data class Success(val data: Any? = null) : FashionlyUiState
     data class Error(val error: Throwable) : FashionlyUiState
     object Loading : FashionlyUiState
+    object IDLE : FashionlyUiState
 }
