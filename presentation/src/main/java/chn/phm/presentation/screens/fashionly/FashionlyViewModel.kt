@@ -157,10 +157,12 @@ class FashionlyViewModel @Inject constructor(
                 val result = insertFashionlyResultUseCase.execute(
                     FashionlyResultDomain(
                         id = -1,
+                        timeCreated = System.currentTimeMillis(),
                         modelImageUri = currentUris.first().toString(),
                         clothImageUri = currentUris[1].toString(),
                         resultUrl = resultUrl,
-                        prompt = _prompt.value ?: ""
+                        prompt = _prompt.value ?: "",
+                        clothType = _clothType.value?.value ?: ""
                     )
                 )
                 Log.e("Fashionly", "Insert fashionly result success id= ${result.getOrNull()}")

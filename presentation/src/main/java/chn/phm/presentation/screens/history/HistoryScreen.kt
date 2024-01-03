@@ -1,6 +1,9 @@
 package chn.phm.presentation.screens.history
 
-import androidx.compose.material3.Text
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -8,11 +11,15 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import chn.phm.domain.model.fashionly.FashionlyResultDomain
 import chn.phm.presentation.base.navigation.Screen
+import chn.phm.presentation.base.theme.BackgroundLight
+import chn.phm.presentation.screens.history.components.HistoryCard
 import chn.phm.presentation.screens.history.components.NoHistory
 
 @Composable
 fun HistoryScreen(
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
+        .fillMaxSize()
+        .background(color = BackgroundLight),
     navHostController: NavHostController,
     viewModel: HistoryViewModel
 ) {
@@ -38,5 +45,9 @@ fun HistoryList(
     results: List<FashionlyResultDomain>,
     modifier: Modifier
 ) {
-    Text(text = results.size.toString())
+    LazyColumn(modifier = modifier) {
+        items(results) { result ->
+            HistoryCard(fashionlyResult = result)
+        }
+    }
 }

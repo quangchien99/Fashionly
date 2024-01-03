@@ -54,19 +54,23 @@ fun FashionlyResponse.toFashionlyResult(): FashionlyResult {
 
 fun FashionlyResultDomain.toEntityModel(): FashionlyResultEntity {
     return FashionlyResultEntity(
+        timeCreated = this.timeCreated,
         modelImageUri = this.modelImageUri,
         clothImageUri = this.clothImageUri,
         resultUrl = this.resultUrl,
-        prompt = this.prompt
+        prompt = this.prompt,
+        clothType = this.clothType
     )
 }
 
 fun FashionlyResultEntity.toDomainModel(): FashionlyResultDomain {
     return FashionlyResultDomain(
-        id = id,
-        modelImageUri = modelImageUri,
-        clothImageUri = clothImageUri,
-        resultUrl = resultUrl,
-        prompt = prompt
+        id = this.id,
+        timeCreated = this.timeCreated,
+        modelImageUri = this.modelImageUri,
+        clothImageUri = this.clothImageUri,
+        resultUrl = this.resultUrl,
+        prompt = this.prompt,
+        clothType = this.clothType
     )
 }
