@@ -4,7 +4,7 @@ import chn.phm.domain.repository.FashionlyRepository
 import chn.phm.domain.repository.RemoteConfigRepository
 import chn.phm.domain.repository.SettingRepository
 import chn.phm.domain.usecase.fashionly.FashionizeUseCase
-import chn.phm.domain.usecase.fashionly.GetAllFasionlyResultsUseCase
+import chn.phm.domain.usecase.fashionly.GetAllFashionlyResultsUseCase
 import chn.phm.domain.usecase.fashionly.InsertFashionlyResultUseCase
 import chn.phm.domain.usecase.fashionly.SaveImageUseCase
 import chn.phm.domain.usecase.fashionly.UploadImagesUseCase
@@ -72,8 +72,8 @@ object UseCaseModule {
     @Provides
     fun provideGetAllFashionlyResultUseCase(
         fashionlyRepository: FashionlyRepository
-    ): GetAllFasionlyResultsUseCase {
-        return GetAllFasionlyResultsUseCase(fashionlyRepository)
+    ): GetAllFashionlyResultsUseCase {
+        return GetAllFashionlyResultsUseCase(fashionlyRepository)
     }
 
     @Provides

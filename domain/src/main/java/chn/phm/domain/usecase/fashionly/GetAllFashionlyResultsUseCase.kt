@@ -6,7 +6,7 @@ import chn.phm.domain.repository.FashionlyRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetAllFasionlyResultsUseCase @Inject constructor(
+class GetAllFashionlyResultsUseCase @Inject constructor(
     private val fashionlyRepository: FashionlyRepository
 ) : SingleUseCaseFlow<Flow<List<FashionlyResultDomain>>> {
 
