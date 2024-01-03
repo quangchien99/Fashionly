@@ -27,7 +27,8 @@ object Android {
     const val material_3 = "androidx.compose.material3:material3:${Versions.materialVersion}"
     const val datastore_references =
         "androidx.datastore:datastore-preferences:${Versions.dataStorePreferencesVersion}"
-    const val compose_live_data = "androidx.compose.runtime:runtime-livedata:${Versions.composeVersion}"
+    const val compose_live_data =
+        "androidx.compose.runtime:runtime-livedata:${Versions.composeVersion}"
 }
 
 object Testing {
@@ -56,5 +57,8 @@ object Libraries {
     const val coroutines_play_services =
         "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Versions.coroutinesPlayServicesVersion}"
     const val kotlinx_coroutines_core =
-        "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinxCoroutinesCore}"
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinxCoroutinesCoreVersion}"
+    const val room_runtime = "androidx.room:room-runtime:${Versions.roomVersion}"
+    const val room_compiler = "androidx.room:room-compiler:${Versions.roomVersion}"
+    const val room_ktx = "androidx.room:room-ktx:${Versions.roomVersion}"
 }

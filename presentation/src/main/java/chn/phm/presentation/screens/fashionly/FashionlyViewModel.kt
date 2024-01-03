@@ -7,7 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import chn.phm.domain.model.fashionly.FashionlyData
+import chn.phm.domain.model.fashionly.FashionlyResultDomain
 import chn.phm.domain.usecase.fashionly.FashionizeUseCase
+import chn.phm.domain.usecase.fashionly.InsertFashionlyResultUseCase
 import chn.phm.domain.usecase.fashionly.SaveImageUseCase
 import chn.phm.domain.usecase.fashionly.UploadImagesUseCase
 import chn.phm.domain.usecase.remoteconfig.GetConfigValueUseCase
@@ -20,7 +22,8 @@ class FashionlyViewModel @Inject constructor(
     private val uploadImagesUseCase: UploadImagesUseCase,
     private val fashionizeUseCase: FashionizeUseCase,
     private val getConfigValueUseCase: GetConfigValueUseCase,
-    private val saveImageUseCase: SaveImageUseCase
+    private val saveImageUseCase: SaveImageUseCase,
+    private val insertFashionlyResultUseCase: InsertFashionlyResultUseCase
 ) : ViewModel() {
 
     private val _uploadedImages: MutableLiveData<List<String>> = MutableLiveData(emptyList())
@@ -39,8 +42,12 @@ class FashionlyViewModel @Inject constructor(
     private val _getAPIKeyStatus: MutableLiveData<Boolean> = MutableLiveData()
     val getAPIKeyStatus: LiveData<Boolean> = _getAPIKeyStatus
 
+    private val currentUris: MutableList<Uri> = mutableListOf()
+
     fun uploadImages(uris: List<Uri>) {
         Log.d("Fashionly", "uploading Images")
+        currentUris.clear()
+        currentUris.addAll(uris)
         viewModelScope.launch {
             _fashionlyUiState.value = FashionlyUiState.Loading
             val result = uploadImagesUseCase.execute(uris)
@@ -139,6 +146,25 @@ class FashionlyViewModel @Inject constructor(
                 Log.d("Fashionly", "saveImageToStorage Success")
             } else {
                 Log.d("Fashionly", "saveImageToStorage failed")
+            }
+        }
+    }
+
+    fun insertFashionlyResult(resultUrl: String) {
+        viewModelScope.launch {
+            try {
+                val result = insertFashionlyResultUseCase.execute(
+                    FashionlyResultDomain(
+                        id = -1,
+                        modelImageUri = currentUris.first().toString(),
+                        clothImageUri = currentUris[1].toString(),
+                        resultUrl = resultUrl,
+                        prompt = _prompt.value ?: ""
+                    )
+                )
+                Log.e("Fashionly", "Insert fashionly result success id= ${result.getOrNull()}")
+            } catch (e: Exception) {
+                Log.e("Fashionly", "Insert fashionly result failed")
             }
         }
     }

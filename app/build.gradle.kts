@@ -80,6 +80,12 @@ dependencies {
     implementation(Libraries.firebase_remote_config)
     implementation(Libraries.firebase_storage)
 
+    // Room components
+    implementation(Libraries.room_runtime)
+    annotationProcessor(Libraries.room_compiler)
+    kapt(Libraries.room_compiler)
+    implementation(Libraries.room_ktx)
+
     implementation(project(":presentation"))
     implementation(project(":data"))
     implementation(project(":domain"))

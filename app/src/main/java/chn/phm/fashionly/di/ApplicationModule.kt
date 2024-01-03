@@ -2,6 +2,9 @@ package chn.phm.fashionly.di
 
 import android.content.ContentResolver
 import android.content.Context
+import androidx.room.Room
+import chn.phm.data.local.database.FashionlyDatabase
+import chn.phm.data.local.database.dao.FashionlyResultDao
 import chn.phm.data.remote.network.NetworkClient
 import chn.phm.data.remote.network.NetworkRetrofit
 import chn.phm.data.utils.DeviceInfoProvider
@@ -50,5 +53,20 @@ object ApplicationModule {
     @Provides
     fun provideContentResolver(@ApplicationContext context: Context): ContentResolver {
         return context.contentResolver
+    }
+
+    @Singleton
+    @Provides
+    fun provideFashionlyDatabase(@ApplicationContext context: Context): FashionlyDatabase {
+        return Room.databaseBuilder(
+            context,
+            FashionlyDatabase::class.java,
+            "FashionlyDatabase.db"
+        ).build()
+    }
+
+    @Provides
+    fun provideFashionlyResultDao(fashionlyDatabase: FashionlyDatabase): FashionlyResultDao {
+        return fashionlyDatabase.fashionlyResultDao()
     }
 }

@@ -66,6 +66,12 @@ dependencies {
 
     implementation(Libraries.kotlinx_coroutines_core)
 
+    // Room components
+    implementation(Libraries.room_runtime)
+    annotationProcessor(Libraries.room_compiler)
+    implementation(Libraries.room_ktx)
+    kapt(Libraries.room_compiler)
+
     implementation(project(":domain"))
 }
 

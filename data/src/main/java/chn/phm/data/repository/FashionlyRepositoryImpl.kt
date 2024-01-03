@@ -9,6 +9,9 @@ import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
+import chn.phm.data.local.database.dao.FashionlyResultDao
+import chn.phm.data.mapper.toDomainModel
+import chn.phm.data.mapper.toEntityModel
 import chn.phm.data.mapper.toFashionlyRequest
 import chn.phm.data.mapper.toFashionlyResult
 import chn.phm.data.remote.FashionlyApi
@@ -16,10 +19,13 @@ import chn.phm.data.remote.network.NetworkResponse
 import chn.phm.data.utils.DeviceInfoProvider
 import chn.phm.domain.model.fashionly.FashionlyData
 import chn.phm.domain.model.fashionly.FashionlyResult
+import chn.phm.domain.model.fashionly.FashionlyResultDomain
 import chn.phm.domain.repository.FashionlyRepository
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
@@ -35,8 +41,16 @@ class FashionlyRepositoryImpl @Inject constructor(
     private val fashionlyApi: FashionlyApi,
     private val storageReference: StorageReference,
     private val deviceInfoProvider: DeviceInfoProvider,
-    private val contentResolver: ContentResolver
+    private val contentResolver: ContentResolver,
+    private val fashionlyResultDao: FashionlyResultDao
 ) : FashionlyRepository {
+
+    override val allFashionlyResults: Flow<List<FashionlyResultDomain>> =
+        fashionlyResultDao.getAllFashionlyResults().map { entities ->
+            entities.map { entity ->
+                entity.toDomainModel()
+            }
+        }
 
     override suspend fun uploadImages(uris: List<Uri>): Result<List<String>> =
         suspendCoroutine { continuation ->
@@ -101,6 +115,13 @@ class FashionlyRepositoryImpl @Inject constructor(
                 Result.failure(e)
             }
         }
+    }
+
+    override suspend fun insertFashionlyResult(fashionlyResultDomain: FashionlyResultDomain): Result<Int> {
+        val result = fashionlyResultDao.insertFashionlyResult(
+            fashionlyResultDomain.toEntityModel()
+        )
+        return Result.success(result.toInt())
     }
 
     private fun saveBitmapToStorage(bitmap: Bitmap): Boolean {

@@ -2,6 +2,7 @@ package chn.phm.fashionly.di
 
 import android.content.ContentResolver
 import android.content.Context
+import chn.phm.data.local.database.dao.FashionlyResultDao
 import chn.phm.data.local.preference.SettingStoreManager
 import chn.phm.data.remote.FashionlyApi
 import chn.phm.data.repository.FashionlyRepositoryImpl
@@ -42,13 +43,15 @@ object RepositoryModule {
         fashionlyApi: FashionlyApi,
         storageReference: StorageReference,
         deviceInfoProvider: DeviceInfoProvider,
-        contentResolver: ContentResolver
+        contentResolver: ContentResolver,
+        fashionlyResultDao: FashionlyResultDao
     ): FashionlyRepository {
         return FashionlyRepositoryImpl(
             fashionlyApi,
             storageReference,
             deviceInfoProvider,
-            contentResolver
+            contentResolver,
+            fashionlyResultDao
         )
     }
 

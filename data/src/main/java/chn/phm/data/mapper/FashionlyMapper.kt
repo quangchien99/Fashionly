@@ -1,9 +1,11 @@
 package chn.phm.data.mapper
 
+import chn.phm.data.local.database.entity.FashionlyResultEntity
 import chn.phm.data.remote.request.FashionlyRequest
 import chn.phm.data.remote.response.FashionlyResponse
 import chn.phm.domain.model.fashionly.FashionlyData
 import chn.phm.domain.model.fashionly.FashionlyResult
+import chn.phm.domain.model.fashionly.FashionlyResultDomain
 import chn.phm.domain.model.fashionly.MetaInfoDomain
 
 fun FashionlyData.toFashionlyRequest(): FashionlyRequest {
@@ -47,5 +49,24 @@ fun FashionlyResponse.toFashionlyResult(): FashionlyResult {
             temp = this.meta.temp,
             width = this.meta.width
         )
+    )
+}
+
+fun FashionlyResultDomain.toEntityModel(): FashionlyResultEntity {
+    return FashionlyResultEntity(
+        modelImageUri = this.modelImageUri,
+        clothImageUri = this.clothImageUri,
+        resultUrl = this.resultUrl,
+        prompt = this.prompt
+    )
+}
+
+fun FashionlyResultEntity.toDomainModel(): FashionlyResultDomain {
+    return FashionlyResultDomain(
+        id = id,
+        modelImageUri = modelImageUri,
+        clothImageUri = clothImageUri,
+        resultUrl = resultUrl,
+        prompt = prompt
     )
 }

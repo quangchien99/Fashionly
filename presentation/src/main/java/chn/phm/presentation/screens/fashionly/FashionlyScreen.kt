@@ -59,8 +59,9 @@ fun FashionlyScreen(
                     viewModel.resetStatus()
                 },
                 onSaveToDevice = {
-                    viewModel.resetStatus()
+                    viewModel.insertFashionlyResult(uiState.data.toString())
                     viewModel.saveImageToStorage(uiState.data.toString())
+                    viewModel.resetStatus()
                 }
             )
         }
