@@ -1,9 +1,10 @@
 package chn.phm.fashionly.di
 
 import android.content.ContentResolver
-import android.content.Context
+import androidx.datastore.core.DataStore
+import chn.phm.data.FashionlyPreferences
 import chn.phm.data.local.database.dao.FashionlyResultDao
-import chn.phm.data.local.preference.SettingStoreManager
+import chn.phm.data.local.preference.FashionlyPrefManager
 import chn.phm.data.remote.FashionlyApi
 import chn.phm.data.repository.FashionlyRepositoryImpl
 import chn.phm.data.repository.RemoteConfigRepositoryImpl
@@ -18,7 +19,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
@@ -27,14 +27,18 @@ object RepositoryModule {
 
     @Provides
     @ViewModelScoped
-    fun provideSettingStoreManager(@ApplicationContext context: Context): SettingStoreManager {
-        return SettingStoreManager(context)
+    fun provideFashionlyPrefManager(
+        fashionlyPreferences: DataStore<FashionlyPreferences>
+    ): FashionlyPrefManager {
+        return FashionlyPrefManager(fashionlyPreferences)
     }
 
     @Provides
     @ViewModelScoped
-    fun provideSettingRepository(settingStoreManager: SettingStoreManager): SettingRepository {
-        return SettingRepositoryImpl(settingStoreManager)
+    fun provideSettingRepository(
+        fashionlyPrefManager: FashionlyPrefManager
+    ): SettingRepository {
+        return SettingRepositoryImpl(fashionlyPrefManager)
     }
 
     @Provides

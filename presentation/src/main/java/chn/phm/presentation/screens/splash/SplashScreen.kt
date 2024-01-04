@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,12 +28,18 @@ fun SplashScreen(
 ) {
     val viewModel: SplashViewModel = hiltViewModel()
 
-    LaunchedEffect(key1 = true) {
-        viewModel.settingData.collect { setting ->
-            if (setting.isFirstOpen) {
-                navHostController.navigate(Screen.OnBoardingScreen.route)
+    val isFirstOpen by viewModel.isFirstOpen.observeAsState()
+
+    LaunchedEffect(key1 = isFirstOpen) {
+        isFirstOpen?.let {
+            if (it) {
+                navHostController.navigate(Screen.OnBoardingScreen.route) {
+                    popUpTo(Screen.SplashScreen.route) { inclusive = true }
+                }
             } else {
-                navHostController.navigate(Screen.FashionlyScreen.route)
+                navHostController.navigate(Screen.FashionlyScreen.route) {
+                    popUpTo(Screen.SplashScreen.route) { inclusive = true }
+                }
             }
         }
     }

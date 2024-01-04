@@ -11,7 +11,9 @@ import chn.phm.domain.usecase.fashionly.UploadImagesUseCase
 import chn.phm.domain.usecase.remoteconfig.FetchAndActivateConfigUseCase
 import chn.phm.domain.usecase.remoteconfig.GetConfigValueUseCase
 import chn.phm.domain.usecase.setting.GetSettingUseCase
-import chn.phm.domain.usecase.setting.SaveSettingUseCase
+import chn.phm.domain.usecase.setting.UpdateFashionlySettingsUseCase
+import chn.phm.domain.usecase.setting.UpdateIsEnableDarkModeUseCase
+import chn.phm.domain.usecase.setting.UpdateIsFirstOpenUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,8 +32,18 @@ object UseCaseModule {
     }
 
     @Provides
-    fun provideSaveSettingUseCase(settingRepository: SettingRepository): SaveSettingUseCase {
-        return SaveSettingUseCase(settingRepository)
+    fun provideSaveSettingUseCase(settingRepository: SettingRepository): UpdateIsFirstOpenUseCase {
+        return UpdateIsFirstOpenUseCase(settingRepository)
+    }
+
+    @Provides
+    fun provideUpdateFashionlySettingsUseCase(settingRepository: SettingRepository): UpdateFashionlySettingsUseCase {
+        return UpdateFashionlySettingsUseCase(settingRepository)
+    }
+
+    @Provides
+    fun provideUpdateIsEnableDarkModeUseCase(settingRepository: SettingRepository): UpdateIsEnableDarkModeUseCase {
+        return UpdateIsEnableDarkModeUseCase(settingRepository)
     }
 
     /*

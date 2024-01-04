@@ -1,11 +1,14 @@
 package chn.phm.domain.repository
 
-import chn.phm.domain.model.setting.SettingData
+import chn.phm.domain.model.setting.FashionlyPrefDomain
 import kotlinx.coroutines.flow.Flow
 
 interface SettingRepository {
+    val fashionlyPrefs: Flow<FashionlyPrefDomain>
 
-    suspend fun putSetting(setting: SettingData)
+    suspend fun markOpened()
 
-    suspend fun getSettingData(): Flow<SettingData>
+    suspend fun setIsEnableDarkMode(isEnableDarkMode: Boolean)
+
+    suspend fun setFashionlySetting(fashionlySettingsDomain: FashionlyPrefDomain.FashionlySettingsDomain)
 }

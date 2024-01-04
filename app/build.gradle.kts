@@ -62,6 +62,7 @@ dependencies {
     androidTestImplementation(Testing.espresso_core)
     androidTestImplementation(Testing.compose_ui_test)
     debugImplementation(Android.compose_ui_tooling)
+    implementation(Android.datastore_references)
 
     // Hilt
     implementation(Libraries.dagger_hilt_android)

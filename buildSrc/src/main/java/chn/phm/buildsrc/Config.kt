@@ -27,6 +27,10 @@ object Android {
     const val material_3 = "androidx.compose.material3:material3:${Versions.materialVersion}"
     const val datastore_references =
         "androidx.datastore:datastore-preferences:${Versions.dataStorePreferencesVersion}"
+    const val protobuf_javalite =
+        "com.google.protobuf:protobuf-javalite:${Versions.protobufJavaliteVersion}"
+    const val protobuf_protoc =
+        "com.google.protobuf:protoc:${Versions.protobufJavaliteVersion}"
     const val compose_live_data =
         "androidx.compose.runtime:runtime-livedata:${Versions.composeVersion}"
 }

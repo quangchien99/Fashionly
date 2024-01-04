@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option java_package = "chn.phm.data";
+option java_multiple_files = true;
+
+message FashionlyPreferences {
+
+  bool is_disable_on_boarding = 1;
+
+  bool is_enabled_dark_mode = 2;
+
+  // Nested message
+  message FashionlySettings {
+    string negative_prompt = 1;
+    int32 height = 2;
+    int32 width = 3;
+    double guidance_scale = 4;
+    int32 num_inference_steps = 5;
+    int64 seed = 6;
+  }
+
+  // Field of type FashionlySettings
+  FashionlySettings settings = 9;
+}

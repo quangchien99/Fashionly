@@ -33,6 +33,8 @@ object Versions {
     const val kotlinCompilerExtensionVersion = "1.2.0"
     const val composeFoundationVersion = "1.5.4"
     const val dataStorePreferencesVersion = "1.0.0"
+    const val protobufJavaliteVersion = "3.19.4"
+    const val protobufVersion = "0.8.17"
     const val navigationComposeVersion = "2.7.5"
     const val composeLiveDataVersion = "2.7.5"
 

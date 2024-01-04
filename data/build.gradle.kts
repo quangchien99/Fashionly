@@ -1,9 +1,14 @@
+import com.google.protobuf.gradle.generateProtoTasks
+import com.google.protobuf.gradle.protobuf
+import com.google.protobuf.gradle.protoc
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("org.jlleitschuh.gradle.ktlint")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.protobuf")
 }
 
 android {
@@ -16,6 +21,8 @@ android {
         testInstrumentationRunner = Versions.testInstrumentationRunner
         consumerProguardFiles("consumer-rules.pro")
     }
+
+    sourceSets["main"].java.srcDir("build/generated/source/proto/main/java")
 
     buildTypes {
         release {
@@ -32,6 +39,21 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = Android.protobuf_protoc
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                create("java") {
+                    option("lite")
+                }
+            }
+        }
     }
 }
 
@@ -71,6 +93,9 @@ dependencies {
     annotationProcessor(Libraries.room_compiler)
     implementation(Libraries.room_ktx)
     kapt(Libraries.room_compiler)
+
+    // Protobuf
+    implementation(Android.protobuf_javalite)
 
     implementation(project(":domain"))
 }
