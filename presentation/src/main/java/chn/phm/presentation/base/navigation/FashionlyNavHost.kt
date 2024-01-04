@@ -51,7 +51,10 @@ fun FashionlyNavHost(
             )
         }
         composable(Screen.SettingsScreen.route) {
-            SettingScreen(navHostController = navController)
+            SettingScreen(
+                navHostController = navController,
+                viewModel = hiltViewModel(viewModelStoreOwner)
+            )
         }
     }
 }
